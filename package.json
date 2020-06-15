@@ -1,0 +1,28 @@
+{
+  "name": "express-react-redux-starter",
+  "version": "1.0.0",
+  "description": "this is a full stack starter projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leegould119/express-react-redux-starter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leegould119/express-react-redux-starter/issues"
+  },
+  "homepage": "https://github.com/leegould119/express-react-redux-starter#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.18"
+  }
+}
