@@ -2,41 +2,25 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const mongoose = require('mongoose');
-const strings = require('./config/strings');
 const passport = require('passport');
-const passportSetup = require('./config/passport-setup');
-mongoose.Promise = global.Promise;
+const crypto = require('crypto');
+const database = require('./config/database');
 
 //Middleware
-//connection string
+
 app.use(cors());
-mongoose
-  .connect(strings.mongoose.connectionString, strings.mongoose.options)
-  .catch((err) => console.log(err));
-
-const connection = mongoose.connection;
-connection
-  .on('connected', () => {
-    console.log('mongo db connected');
-  })
-  .on('error', (e) => {
-    console.log('there is an error' + e);
-  });
-
+//body parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/admin', require('./routes/user-routes'));
+//passport config
+require('./config/passport-setup');
 
-app.post(
-  '/login',
-  passport.authenticate('local', function (err, user) {
-    console.log('authenticate post api ');
-    console.log(user);
-    console.log(err);
-  })
-);
+app.use(passport.initialize());
+app.use(passport.session());
+
+//routes
+app.use('/', require('./routes/user-routes'));
 
 const port = process.env.port || 3000;
 app.listen(port, () => console.log(`Server is running on port ${port}`));

@@ -1,33 +1,35 @@
 const router = require('express').Router();
+const passport = require('passport');
+const genPassword = require('../lib/passwordUtils').genPassword;
+const connection = require('../config/database');
 const User = require('../models/UserSchema');
 
 // add remove users endpoints
-router.get('/users', (req, res, next) => {
-  req.send({ type: 'get' });
+
+router.get('/', (req, res, next) => {
+  res.send('<h1>Register</h1>');
+});
+router.post('/login', passport.authenticate('local'), (req, res, next) => {
+  const user = req.user;
+  res.send(user);
 });
 
-router.post('/users', (req, res, next) => {
-  // let body = req.body;
-  let user = new User({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: req.body.password
+router.post('/register', (req, res, next) => {
+  const saltHash = genPassword(req.body.pw);
+  const salt = saltHash.salt;
+  const hash = saltHash.hash;
+
+  const newUser = new User({
+    username: req.body.uname,
+    hash: hash,
+    salt: salt
   });
 
-  user.save().then((users) => res.send(users));
-});
-
-router.put('/users/:id', (req, res, next) => {
-  let id = req.params.id;
-  let body = req.body;
-  console.log(`BODY : ${JSON.stringify(body)}`);
-  res.send({ type: 'PUT', id: id, body: body });
-});
-router.delete('/users/:id', (req, res, next) => {
-  let id = req.params.id;
-  res.send({ type: 'DELETE', id: id });
-  next();
+  const userData = null;
+  newUser.save().then((user) => {
+    console.log(user);
+    res.send(user);
+  });
 });
 
 module.exports = router;
