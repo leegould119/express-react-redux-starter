@@ -1,16 +1,18 @@
 const router = require('express').Router();
 const User = require('../models/UserSchema');
+
 // add remove users endpoints
 router.get('/users', (req, res, next) => {
-  return new Promise((resolve, reject)=>
-  {
-    User.find((err, users)).then((users) => res.send(users))};
+  req.send({ type: 'get' });
 });
+
 router.post('/users', (req, res, next) => {
   // let body = req.body;
   let user = new User({
     firstName: req.body.firstName,
-    lastName: req.body.lastName
+    lastName: req.body.lastName,
+    email: req.body.email,
+    password: req.body.password
   });
 
   user.save().then((users) => res.send(users));
