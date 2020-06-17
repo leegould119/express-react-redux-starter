@@ -8,12 +8,12 @@ const logout = async () => {
   };
 
   return await axios({
-    method: "get",
+    method: "post",
     url: apiEndPoint,
     headers: headers
   })
     .then((resp) => {
-      return resp;
+      return resp.data;
     })
     .catch((err) => {
       return err;

@@ -3,31 +3,17 @@ const passport = require('passport');
 const genPassword = require('../lib/passwordUtils').genPassword;
 const connection = require('../config/database');
 const User = require('../models/UserSchema');
-const { findOne } = require('../models/UserSchema');
 
-// add remove users endpoints
-
-// router.post('/validate', (req, res, next) => {
-//   let id = req.body.data;
-//   console.log(id);
-//   const users = null;
-//   User.findById(id, (err, users) => {
-//     if (err) {
-//       res.send('error');
-//     } else {
-//       res.send(users._id);
-//     }
-//   });
-// });
-
-router.get('/logout', function (req, res, next) {
-  req.logout();
-  res.send('logged out');
+router.post('/logout', (req, res, next) => {
+  req.logOut();
+  res.json({ isLoggedIn: false });
   next();
 });
+
 router.post('/login', passport.authenticate('local'), (req, res, next) => {
   const user = req.user;
-  res.send(user);
+  res.json({ userId: user._id, isLoggedIn: true });
+  next();
 });
 
 router.post('/register', (req, res, next) => {
@@ -49,9 +35,21 @@ router.post('/register', (req, res, next) => {
         res.send(user);
       });
     } else {
-      res.send(users.username + ' is already registered ');
+      res.json({
+        error: 'registration error',
+        message: users.username + ' is already registered'
+      });
     }
   });
 });
 
+router.post('/authorised', (req, res, next) => {
+  const id = req.body.id;
+  console.log(typeof id);
+  // res.send(id);
+  User.findById(id, (err, users) => {
+    console.log(users);
+  }).then(res.json({ isLoggedIn: true }));
+  next();
+});
 module.exports = router;
