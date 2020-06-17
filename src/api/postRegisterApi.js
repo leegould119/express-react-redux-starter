@@ -19,7 +19,7 @@ const registerUser = async (uname, pw) => {
     })
     .catch((err) => {
       //   console.log(err);
-      return err.status.status;
+      return err;
     });
 };
 
