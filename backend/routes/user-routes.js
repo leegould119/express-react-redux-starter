@@ -19,37 +19,44 @@ router.post('/login', passport.authenticate('local'), (req, res, next) => {
 router.post('/register', (req, res, next) => {
   let username = { username: req.body.uname };
 
-  User.findOne(username, (err, users) => {}).then((users) => {
-    if (users.username === null) {
-      const saltHash = genPassword(req.body.pw);
-      const salt = saltHash.salt;
-      const hash = saltHash.hash;
+  User.findOne(username, (err, users) => {})
+    .then((users) => {
+      if (!users) {
+        const saltHash = genPassword(req.body.pw);
+        const salt = saltHash.salt;
+        const hash = saltHash.hash;
 
-      const newUser = new User({
-        username: req.body.uname,
-        hash: hash,
-        salt: salt
-      });
-      newUser.save().then((user) => {
-        console.log(user);
-        res.send(user);
-      });
-    } else {
-      res.json({
-        error: 'registration error',
-        message: users.username + ' is already registered'
-      });
-    }
-  });
+        const newUser = new User({
+          username: req.body.uname,
+          hash: hash,
+          salt: salt
+        });
+        newUser.save().then((user) => {
+          console.log(user);
+          res.send(user);
+        });
+      } else {
+        res.json({
+          error: 'registration error',
+          message: users.username + ' is already registered'
+        });
+      }
+    })
+    .catch((error) => {
+      next(error);
+    });
 });
 
 router.post('/authorised', (req, res, next) => {
   const id = req.body.id;
-  console.log(typeof id);
-  // res.send(id);
-  User.findById(id, (err, users) => {
-    console.log(users);
-  }).then(res.json({ isLoggedIn: true }));
-  next();
+  User.findById(id)
+    .then((user) => {
+      res.json({ userId: user._id, isLoggedIn: true });
+      next();
+    })
+    .catch((error) => {
+      res.json({ isLoggedIn: false });
+      next(error);
+    });
 });
 module.exports = router;
