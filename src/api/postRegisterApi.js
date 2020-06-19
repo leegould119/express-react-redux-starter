@@ -1,14 +1,14 @@
-import axios from "axios";
+import axios from 'axios';
 
 const registerUser = async (uname, pw) => {
-  const apiEndPoint = "http://localhost:3000/register";
-  const data = { uname: "gunilla@gmail.com", pw: "Maxiepuss1" };
+  const apiEndPoint = 'http://localhost:3000/register';
+  const data = { uname: uname, pw: pw };
   const headers = {
-    "cache-control": "no-cache"
+    'cache-control': 'no-cache'
   };
 
   return await axios({
-    method: "post",
+    method: 'post',
     url: apiEndPoint,
     headers: headers,
     data: data

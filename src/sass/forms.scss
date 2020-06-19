@@ -1,0 +1,109 @@
+.form {
+  position: absolute;
+  width: 300px;
+  left: calc(25% - 150px);
+  top: 40%;
+  height: auto;
+  background-color: $white;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+  -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+  -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+  padding-bottom: 20px;
+  input[type] {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    outline: none;
+    display: block;
+    width: calc(100% - 20px);
+    padding: 14px 10px 14px 10px;
+    border: none;
+    border-bottom: 1px solid $light-grey;
+    background: transparent;
+    margin: 10px 0px 10px 10px;
+  }
+  .form-header {
+    text-align: center;
+    h2 {
+      font-size: 3em;
+      font-family: 'Kanit', sans-serif;
+      background: linear-gradient(
+        90deg,
+        rgba(237, 110, 6, 1) 0%,
+        rgba(224, 107, 94, 1) 35%,
+        rgba(0, 212, 255, 1) 100%
+      );
+      text-transform: uppercase;
+      font-weight: 100;
+      padding: 20px;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      text-transform: uppercase;
+      margin: 0;
+    }
+  }
+
+  input[type='button'],
+  input[type='submit'] {
+    background: rgba(224, 107, 94, 1);
+    display: inline-block;
+    cursor: pointer;
+    color: $white;
+    font-size: 1em;
+    padding: 13px 18px;
+    transition: all 0.5s ease-in-out;
+    text-decoration: none;
+    &:hover {
+      background: rgba(204, 87, 74, 1);
+    }
+  }
+  a {
+    font-size: 0.8em;
+    margin-left: 20px;
+    color: #ff6f68;
+    font-weight: 200;
+    text-decoration: none;
+    border-bottom: 1px dashed #ff6f68;
+    border-radius: 2px;
+  }
+}
+.background {
+  display: block;
+  position: absolute;
+  background-image: url('../img/background.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+}
+// .form {
+//   max-width: 500px;
+//   padding: 30px;
+//   background: #ffffff;
+//   margin: 50px auto;
+//   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+//   -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+//   -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+
+//
+
+//
+//   textarea {
+//     resize: none;
+//     overflow: hidden;
+//   }
+//
+//   input[type='button']:hover,
+//   input[type='submit']:hover {
+//     background: linear-gradient(to bottom, #34caca 5%, #30c9c9 100%);
+//     background-color: #34caca;
+//   }
+//   input::selection {
+//     background: #fff; /* WebKit/Blink Browsers */
+//   }
+//   input::-moz-selection {
+//     background: #fff; /* Gecko Browsers */
+//   }
+// }

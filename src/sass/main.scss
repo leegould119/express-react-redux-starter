@@ -1,1 +1,24 @@
-//
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700&display=swap');
+@import 'error-page', 'colors', 'typography', 'mixins', 'forms', 'notifications';
+
+// font-family: 'Raleway', sans-serif;
+
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.logo-large {
+  width: 120px;
+  height: 120px;
+  display: block;
+  margin: 30px auto -40px;
+  background-image: url('../img/logo.svg');
+  background-repeat: no-repeat;
+}

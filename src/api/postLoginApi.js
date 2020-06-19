@@ -1,18 +1,18 @@
-import axios from "axios";
+import axios from 'axios';
 
 const loginUser = async (uname, pw) => {
-  const apiEndPoint = "http://localhost:3000/login";
-  const data = { uname: "gunilla@gmail.com", pw: "Maxiepuss1" };
+  const apiEndPoint = 'http://localhost:3000/login';
+  const data = { uname: uname, pw: pw };
   const headers = {
-    Accept: "tesst/html",
-    "cache-control": "no-cache",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "*",
-    "Content-Type": "application/json"
+    Accept: 'tesst/html',
+    'cache-control': 'no-cache',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': '*',
+    'Content-Type': 'application/json'
   };
 
   return await axios({
-    method: "post",
+    method: 'post',
     url: apiEndPoint,
     headers: headers,
     data: data

@@ -11,9 +11,18 @@ router.post('/logout', (req, res, next) => {
 });
 
 router.post('/login', passport.authenticate('local'), (req, res, next) => {
-  const user = req.user;
-  res.json({ userId: user._id, isLoggedIn: true });
-  next();
+  try {
+    const user = req.user;
+    res.json({ userId: user._id, isLoggedIn: true });
+    next();
+  } catch {
+    (err) => {
+      res.json({
+        erros: err,
+        message: 'your user name or password doesnt exist'
+      });
+    };
+  }
 });
 
 router.post('/register', (req, res, next) => {
