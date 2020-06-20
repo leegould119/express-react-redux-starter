@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import history from '../utils/history';
 import postLogin from '../api/postLoginApi';
 import getLogout from '../api/logoutApi';
 import postRegister from '../api/postRegisterApi';
 import checkAuth from '../api/checkAuthApi';
 import Page404 from '../pages/error404';
+import ProtectedPage from '../pages/protectedPage';
+import Authenticate from '../utils/Authenticate';
 // redux
 import { connect } from 'react-redux';
-import {
-  loginUser,
-  logoutUser,
-  userIsLoggedIn
-} from '../redux/actions/actions';
+import { loginUser, logoutUser } from '../redux/actions/actions';
 
 // PAGES
 import Login from '../pages/login';
@@ -86,11 +84,12 @@ class App extends Component {
       //   <button onClick={this.isAuthorised}> is auth </button>
       // </div>
 
-      <Router history={history}>
+      <Router>
         <Switch>
           <Route exact path="/" component={Login} />
           <Route path="/register" component={Register} />
-          <Route component={Page404} />
+          <Route path="/protected" component={Authenticate(ProtectedPage)} />
+          <Route path="*" component={Page404} />
         </Switch>
       </Router>
     );

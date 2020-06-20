@@ -4,9 +4,10 @@ import postRegister from '../api/postRegisterApi';
 import { Toast } from '../components/notifications';
 import {
   loginUser,
-  errorSuccessMessages,
+  messages,
   logoutUser,
-  userIsLoggedIn
+  isAuthenticated,
+  _formErrors
 } from '../redux/actions/actions';
 class Register extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class Register extends Component {
 
     //Name
     let { username, userpassword, userpasswordverify } = this.state;
-    console.log(username, userpassword, userpasswordverify);
+    let { handleErrors, login, dispatch } = this.props;
     if (validEmailRegex.test(username) == false) {
       formIsValid = false;
       errors['username'] = 'Email is not a valid format';
@@ -78,22 +79,23 @@ class Register extends Component {
       formIsValid = false;
       errors['userpasswordverify'] = 'Passwords do not match';
     }
-
-    this.setState({ errors: errors, formIsValid: formIsValid }, () => {
-      console.log(this.state.errors);
-      console.log(this.state.formIsValid);
-      if (formIsValid) {
-        this.register(username, userpassword);
-      }
-    });
+    if (formIsValid == false) {
+      let data = {
+        formErrors: errors,
+        formIsValid: formIsValid
+      };
+      handleErrors(data);
+    } else {
+      this.register(username, userpassword);
+    }
   };
 
   register = (username, userpassword) => {
     postRegister(username, userpassword).then((resp) => {
       console.log(resp);
-      let { dispatch } = this.props;
+      let { sendMessage } = this.props;
       if (resp.error === 'registration error') {
-        let ErrorMessages = {
+        let data = {
           Notifications: {
             Info: '',
             Warning: '',
@@ -104,10 +106,10 @@ class Register extends Component {
           userId: '',
           isLoggedIn: false
         };
-        dispatch(errorSuccessMessages(ErrorMessages));
+        sendMessage(data);
         return;
       } else {
-        let SuccessMessages = {
+        let data = {
           Notifications: {
             Info: '',
             Warning: '',
@@ -118,13 +120,13 @@ class Register extends Component {
           userId: resp.userId,
           isLoggedIn: resp.isLoggedIn
         };
-        dispatch(errorSuccessMessages(SuccessMessages));
+        sendMessage(data);
       }
     });
   };
 
   render() {
-    let { errors, formIsValid } = this.state;
+    let { formErrors, formIsValid } = this.props;
     return (
       <React.Fragment>
         <div className="background" />
@@ -144,7 +146,11 @@ class Register extends Component {
               onChange={this.handleChange}
             />
             <label className={formIsValid ? '' : 'errorMessages'}>
-              {errors['username'] ? <span> {errors['username']}</span> : ''}
+              {formErrors['username'] ? (
+                <span> {formErrors['username']}</span>
+              ) : (
+                ''
+              )}
             </label>
 
             <input
@@ -155,8 +161,8 @@ class Register extends Component {
               onChange={this.handleChange}
             />
             <label className={formIsValid ? '' : 'errorMessages'}>
-              {errors['userpassword'] ? (
-                <span> {errors['userpassword']}</span>
+              {formErrors['userpassword'] ? (
+                <span> {formErrors['userpassword']}</span>
               ) : (
                 ''
               )}
@@ -169,8 +175,8 @@ class Register extends Component {
               onChange={this.handleChange}
             />
             <label className={formIsValid ? '' : 'errorMessages'}>
-              {errors['userpasswordverify'] ? (
-                <span> {errors['userpasswordverify']}</span>
+              {formErrors['userpasswordverify'] ? (
+                <span> {formErrors['userpasswordverify']}</span>
               ) : (
                 ''
               )}
@@ -193,13 +199,21 @@ const mapStateToProps = (state, ownProps = {}) => {
     Notifications: state.r_auth.Notifications,
     userId: state.r_auth.userId,
     isLoggedIn: state.r_auth.isLoggedIn,
-    errors: state.r_auth.error,
+    formErrors: state.r_auth.formErrors,
     formIsValid: state.r_auth.formIsValid
   };
 };
 
-const mapDispatchToProps = (dispatch, props) => ({
-  dispatch
-});
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    dispatch,
+    sendMessage: (data) => {
+      dispatch(messages(data));
+    },
+    handleErrors: (data) => {
+      dispatch(_formErrors(data));
+    }
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

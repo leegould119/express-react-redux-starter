@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { Toast } from '../components/notifications';
 import {
   loginUser,
-  errorMessages,
+  messages,
   logoutUser,
-  userIsLoggedIn,
-  _formErrors
+  isAuthenticated,
+  _formErrors,
+  closeMessages
 } from '../redux/actions/actions';
-import { use } from 'passport';
 
 class Login extends Component {
   constructor(props) {
@@ -27,6 +27,8 @@ class Login extends Component {
   };
 
   handleSubmit = (event) => {
+    let { username, userpassword } = this.state;
+    console.log(username, userpassword);
     event.preventDefault();
     this.handleValidation();
   };
@@ -39,8 +41,8 @@ class Login extends Component {
 
     //Name
     let { username, userpassword } = this.state;
-    let { handleErrors } = this.props;
-    console.log(username, userpassword);
+    let { handleErrors, login, dispatch } = this.props;
+    console.log(username, userpassword, handleErrors);
     if (validEmailRegex.test(username) == false) {
       formIsValid = false;
       errors['username'] = 'Email is not a valid format';
@@ -69,23 +71,27 @@ class Login extends Component {
     } else {
       this.login(username, userpassword);
     }
-    // this.setState({ errors: errors, formIsValid: formIsValid }, () => {
-    //   console.log(this.state.errors);
-    //   console.log(this.state.formIsValid);
-    //   if (formIsValid) {
-    //     this.login(username, userpassword);
-    //   }
-    // });
   };
 
   // loging request
   login = (username, userpassword) => {
     postLogin(username, userpassword)
       .then((resp, err) => {
-        let { dispatch, sendErrorMessage, login } = this.props;
+        let { sendMessage, login } = this.props;
         console.log(resp);
         if (resp === 'Request failed with status code 401') {
-          sendErrorMessage();
+          let data = {
+            Notifications: {
+              Info: '',
+              Warning: '',
+              Success: '',
+              Error: 'Error',
+              Message: 'Username or password is incorrect.'
+            },
+            userId: '',
+            isLoggedIn: false
+          };
+          sendMessage(data);
           return;
         } else {
           // data sent
@@ -97,17 +103,27 @@ class Login extends Component {
         }
       })
       .then(() => {
-        let { isLoggedIn, userId } = this.props;
+        let { isLoggedIn, userId, closeMessageBox } = this.props;
         if (isLoggedIn == undefined && userId == undefined) return;
         console.log(isLoggedIn);
         console.log(userId);
+        if (isLoggedIn == true) {
+          setTimeout(() => {
+            let data = {
+              userId: userId,
+              isLoggedIn: isLoggedIn
+            };
+            closeMessageBox(data);
+            this.props.history.push(`/protected`);
+          }, 1000);
+        }
       });
   };
 
   render() {
     console.log(JSON.stringify(this.props.Notifications));
     let { formErrors, formIsValid } = this.props;
-    console.log(formErrors, formIsValid);
+    // console.log(formErrors, formIsValid);
     return (
       <React.Fragment>
         <div className="background" />
@@ -125,6 +141,7 @@ class Login extends Component {
               placeholder="Email"
               onChange={this.handleChange}
             />
+
             <label className={formIsValid ? '' : 'errorMessages'}>
               {formErrors['username'] ? (
                 <span> {formErrors['username']}</span>
@@ -147,6 +164,7 @@ class Login extends Component {
                 ''
               )}
             </label>
+
             <div style={{ width: '120px', margin: 'auto' }}>
               <input type="submit" value="Login" />
             </div>
@@ -172,14 +190,17 @@ const mapStateToProps = (state, ownProps = {}) => {
 const mapDispatchToProps = (dispatch, props) => {
   return {
     // dispatch,
-    sendErrorMessage: () => {
-      dispatch(errorMessages());
+    sendMessage: (data) => {
+      dispatch(messages(data));
     },
     login: (data) => {
       dispatch(loginUser(data));
     },
     handleErrors: (data) => {
       dispatch(_formErrors(data));
+    },
+    closeMessageBox: (data) => {
+      dispatch(closeMessages(data));
     }
   };
 };

@@ -1,10 +1,10 @@
 import {
   LOG_IN,
-  ERROR_MESSAGES,
+  MESSAGES,
   FORM_ERRORS,
   CLOSE_MESSAGES,
   LOG_OUT,
-  IS_LOGGED_IN
+  IS_AUTHENTICATED
 } from '../actions/actions';
 
 // get the initial state
@@ -39,14 +39,10 @@ const authReducer = (state = initialState, action) => {
         formErrors: action.payload.formErrors,
         formIsValid: action.payload.formIsValid
       };
-    case ERROR_MESSAGES:
+    case MESSAGES:
       return {
         ...state,
-        formErrors: {},
-        Notifications: {
-          Error: 'Error',
-          Message: 'Username or password is incorrect'
-        }
+        Notifications: action.payload.Notifications
       };
     case CLOSE_MESSAGES:
       return {
@@ -64,9 +60,9 @@ const authReducer = (state = initialState, action) => {
         formIsValid: true
       };
     case LOG_OUT:
-      return action.payload;
-    case IS_LOGGED_IN:
-      return action.payload;
+      return { ...state, isLoggedIn: false };
+    case IS_AUTHENTICATED:
+      return { ...state, isLoggedIn: state.isLoggedIn };
     default:
       return state;
   }
