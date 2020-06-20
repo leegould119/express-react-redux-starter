@@ -5,18 +5,11 @@ class Toast extends Component {
   closeMessages = () => {
     console.log('clicked');
     let { userId, isLoggedIn, dispatch } = this.props;
-    let Messages = {
-      Notifications: {
-        Info: '',
-        Warning: '',
-        Success: '',
-        Error: '',
-        Message: ' '
-      },
+    let data = {
       userId: userId,
       isLoggedIn: isLoggedIn
     };
-    dispatch(closeMessages(Messages));
+    dispatch(closeMessages(data));
   };
 
   render() {

@@ -192,7 +192,9 @@ const mapStateToProps = (state, ownProps = {}) => {
     r_auth: state.r_auth,
     Notifications: state.r_auth.Notifications,
     userId: state.r_auth.userId,
-    isLoggedIn: state.r_auth.isLoggedIn
+    isLoggedIn: state.r_auth.isLoggedIn,
+    errors: state.r_auth.error,
+    formIsValid: state.r_auth.formIsValid
   };
 };
 

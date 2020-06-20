@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import { Toast } from '../components/notifications';
 import {
   loginUser,
-  errorSuccessMessages,
+  errorMessages,
   logoutUser,
-  userIsLoggedIn
+  userIsLoggedIn,
+  _formErrors
 } from '../redux/actions/actions';
 import { use } from 'passport';
 
@@ -38,6 +39,7 @@ class Login extends Component {
 
     //Name
     let { username, userpassword } = this.state;
+    let { handleErrors } = this.props;
     console.log(username, userpassword);
     if (validEmailRegex.test(username) == false) {
       formIsValid = false;
@@ -58,49 +60,40 @@ class Login extends Component {
       errors['userpassword'] = 'Password cannnot be empty';
     }
 
-    this.setState({ errors: errors, formIsValid: formIsValid }, () => {
-      console.log(this.state.errors);
-      console.log(this.state.formIsValid);
-      if (formIsValid) {
-        this.login(username, userpassword);
-      }
-    });
+    if (formIsValid == false) {
+      let data = {
+        formErrors: errors,
+        formIsValid: formIsValid
+      };
+      handleErrors(data);
+    } else {
+      this.login(username, userpassword);
+    }
+    // this.setState({ errors: errors, formIsValid: formIsValid }, () => {
+    //   console.log(this.state.errors);
+    //   console.log(this.state.formIsValid);
+    //   if (formIsValid) {
+    //     this.login(username, userpassword);
+    //   }
+    // });
   };
 
   // loging request
   login = (username, userpassword) => {
     postLogin(username, userpassword)
       .then((resp, err) => {
-        let { dispatch } = this.props;
+        let { dispatch, sendErrorMessage, login } = this.props;
         console.log(resp);
         if (resp === 'Request failed with status code 401') {
-          let ErrorMessages = {
-            Notifications: {
-              Info: '',
-              Warning: '',
-              Success: '',
-              Error: 'Error',
-              Message: 'Username or Password incorrect'
-            },
-            userId: '',
-            isLoggedIn: false
-          };
-          dispatch(errorSuccessMessages(ErrorMessages));
+          sendErrorMessage();
           return;
         } else {
-          let SuccessMessages = {
-            Notifications: {
-              Info: '',
-              Warning: '',
-              Success: 'Success',
-              Error: '',
-              Message: 'successfuly logged in'
-            },
+          // data sent
+          let data = {
             userId: resp.userId,
             isLoggedIn: resp.isLoggedIn
           };
-
-          dispatch(loginUser(SuccessMessages));
+          login(data);
         }
       })
       .then(() => {
@@ -113,7 +106,8 @@ class Login extends Component {
 
   render() {
     console.log(JSON.stringify(this.props.Notifications));
-    let { errors, formIsValid } = this.state;
+    let { formErrors, formIsValid } = this.props;
+    console.log(formErrors, formIsValid);
     return (
       <React.Fragment>
         <div className="background" />
@@ -132,7 +126,11 @@ class Login extends Component {
               onChange={this.handleChange}
             />
             <label className={formIsValid ? '' : 'errorMessages'}>
-              {errors['username'] ? <span> {errors['username']}</span> : ''}
+              {formErrors['username'] ? (
+                <span> {formErrors['username']}</span>
+              ) : (
+                ''
+              )}
             </label>
 
             <input
@@ -143,8 +141,8 @@ class Login extends Component {
               onChange={this.handleChange}
             />
             <label className={formIsValid ? '' : 'errorMessages'}>
-              {errors['userpassword'] ? (
-                <span> {errors['userpassword']}</span>
+              {formErrors['userpassword'] ? (
+                <span> {formErrors['userpassword']}</span>
               ) : (
                 ''
               )}
@@ -165,11 +163,24 @@ const mapStateToProps = (state, ownProps = {}) => {
     r_auth: state.r_auth,
     Notifications: state.r_auth.Notifications,
     userId: state.r_auth.userId,
-    isLoggedIn: state.r_auth.isLoggedIn
+    isLoggedIn: state.r_auth.isLoggedIn,
+    formErrors: state.r_auth.formErrors,
+    formIsValid: state.r_auth.formIsValid
   };
 };
 
-const mapDispatchToProps = (dispatch, props) => ({
-  dispatch
-});
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    // dispatch,
+    sendErrorMessage: () => {
+      dispatch(errorMessages());
+    },
+    login: (data) => {
+      dispatch(loginUser(data));
+    },
+    handleErrors: (data) => {
+      dispatch(_formErrors(data));
+    }
+  };
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
