@@ -6,7 +6,7 @@ import getLogout from '../api/logoutApi';
 import postRegister from '../api/postRegisterApi';
 import checkAuth from '../api/checkAuthApi';
 import Page404 from '../pages/error404';
-import ProtectedPage from '../pages/protectedPage';
+import Profile from '../pages/profile';
 import Authenticate from '../utils/Authenticate';
 // redux
 import { connect } from 'react-redux';
@@ -14,7 +14,6 @@ import { loginUser, logoutUser } from '../redux/actions/actions';
 
 // PAGES
 import Login from '../pages/login';
-import Register from '../pages/register';
 import '../sass/main.scss';
 
 class App extends Component {
@@ -76,19 +75,10 @@ class App extends Component {
 
   render() {
     return (
-      // <div>
-      //   <p>starter template</p>
-      //   <button onClick={this.register}>register</button>
-      //   <button onClick={this.login}> login </button>
-      //   <button onClick={this.logout}> logout </button>
-      //   <button onClick={this.isAuthorised}> is auth </button>
-      // </div>
-
       <Router>
         <Switch>
           <Route exact path="/" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/protected" component={Authenticate(ProtectedPage)} />
+          <Route path="/profile" component={Authenticate(Profile)} />
           <Route path="*" component={Page404} />
         </Switch>
       </Router>
@@ -98,9 +88,9 @@ class App extends Component {
 
 const mapStateToProps = (state, ownProps = {}) => {
   return {
-    r_auth: state.r_auth,
-    userId: state.r_auth.userId,
-    isLoggedIn: state.r_auth.isLoggedIn
+    auth: state.auth,
+    userId: state.auth.userId,
+    isLoggedIn: state.auth.isLoggedIn
   };
 };
 

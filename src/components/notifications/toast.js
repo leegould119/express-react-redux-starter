@@ -72,17 +72,20 @@ class Toast extends Component {
 
 const mapStateToProps = (state, ownProps = {}) => {
   return {
-    Info: state.r_auth.Notifications.Info,
-    Warning: state.r_auth.Notifications.Warning,
-    Success: state.r_auth.Notifications.Success,
-    Error: state.r_auth.Notifications.Error,
-    Message: state.r_auth.Notifications.Message,
-    userId: state.r_auth.userId,
-    isLoggedIn: state.r_auth.isLoggedIn
+    // alerts
+    Info: state.alerts.Notifications.Info,
+    Warning: state.alerts.Notifications.Warning,
+    Success: state.alerts.Notifications.Success,
+    Error: state.alerts.Notifications.Error,
+    Message: state.alerts.Notifications.Message,
+    // auth
+    userId: state.auth.userId,
+    isLoggedIn: state.auth.isLoggedIn
   };
 };
 
 const mapDispatchToProps = (dispatch, props) => ({
   dispatch
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(Toast);

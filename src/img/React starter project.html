@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:8080/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1">  <link href="./React starter project_files/css2" rel="stylesheet"> <title>React starter project</title> <link rel="icon" href="http://localhost:8080/favicon.ico"><link href="./React starter project_files/main.css" rel="stylesheet"><script data-dapp-detection="">
+(function() {
+  let alreadyInsertedMetaTag = false
+
+  function __insertDappDetected() {
+    if (!alreadyInsertedMetaTag) {
+      const meta = document.createElement('meta')
+      meta.name = 'dapp-detected'
+      document.head.appendChild(meta)
+      alreadyInsertedMetaTag = true
+    }
+  }
+
+  if (window.hasOwnProperty('web3')) {
+    // Note a closure can't be used for this var because some sites like
+    // www.wnyc.org do a second script execution via eval for some reason.
+    window.__disableDappDetectionInsertion = true
+    // Likely oldWeb3 is undefined and it has a property only because
+    // we defined it. Some sites like wnyc.org are evaling all scripts
+    // that exist again, so this is protection against multiple calls.
+    if (window.web3 === undefined) {
+      return
+    }
+    __insertDappDetected()
+  } else {
+    var oldWeb3 = window.web3
+    Object.defineProperty(window, 'web3', {
+      configurable: true,
+      set: function (val) {
+        if (!window.__disableDappDetectionInsertion)
+          __insertDappDetected()
+        oldWeb3 = val
+      },
+      get: function () {
+        if (!window.__disableDappDetectionInsertion)
+          __insertDappDetected()
+        return oldWeb3
+      }
+    })
+  }
+})()</script><style></style></head> <body> <div id="app"><div class="background"></div><div class="form"><div class="form-header"><div class="logo-large"></div><h2>Register</h2></div><form method="POST"><input type="text" autocomplete="current-username" name="username" placeholder="Email"><label class=""></label><input autocomplete="current-password" type="password" name="userpassword" placeholder="Password"><label class=""></label><input autocomplete="current-password" type="password" name="userpasswordverify" placeholder="Verify password"><label class=""></label><div style="width: 120px; margin: auto;"><input type="submit" value="Register"></div></form><a name="Login">Login</a></div></div> <script src="./React starter project_files/main.js.download"></script>  </body></html>

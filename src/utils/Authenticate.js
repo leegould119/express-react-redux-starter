@@ -31,7 +31,7 @@ export default function (ComposedComponent) {
   }
   function mapStateToProps(state) {
     return {
-      isLoggedIn: state.r_auth.isLoggedIn
+      isLoggedIn: state.auth.isLoggedIn
     };
   }
   function mapDispatchToProps(dispatch, props) {

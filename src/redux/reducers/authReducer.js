@@ -1,15 +1,13 @@
 import {
   LOG_IN,
-  MESSAGES,
-  FORM_ERRORS,
-  CLOSE_MESSAGES,
+  FORM_VALIDATION,
   LOG_OUT,
+  CLOSE_MESSAGES,
   IS_AUTHENTICATED
 } from '../actions/actions';
 
 // get the initial state
 const initialState = {
-  Notifications: { Info: '', Warning: '', Success: '', Error: '', Message: '' },
   userId: null,
   isLoggedIn: null,
   formErrors: {},
@@ -21,17 +19,10 @@ const authReducer = (state = initialState, action) => {
     case LOG_IN:
       return {
         ...state,
-        Notifications: {
-          Info: '',
-          Warning: '',
-          Success: 'Success',
-          Error: '',
-          Message: 'successfuly logged in'
-        },
         userId: action.payload.userId,
         isLoggedIn: action.payload.isLoggedIn
       };
-    case FORM_ERRORS:
+    case FORM_VALIDATION:
       return {
         ...state,
         isLoggedIn: false,
@@ -39,21 +30,10 @@ const authReducer = (state = initialState, action) => {
         formErrors: action.payload.formErrors,
         formIsValid: action.payload.formIsValid
       };
-    case MESSAGES:
-      return {
-        ...state,
-        Notifications: action.payload.Notifications
-      };
     case CLOSE_MESSAGES:
       return {
         ...state,
-        Notifications: {
-          Info: '',
-          Warning: '',
-          Success: '',
-          Error: '',
-          Message: ''
-        },
+
         userId: action.payload.userId,
         isLoggedIn: action.payload.isLoggedIn,
         formErrors: {},

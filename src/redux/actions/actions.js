@@ -2,7 +2,7 @@ export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
 export const USER_ID = 'USER_ID';
 export const MESSAGES = 'MESSAGES';
-export const FORM_ERRORS = 'FORM_ERRORS';
+export const FORM_VALIDATION = 'FORM_VALIDATION';
 export const IS_AUTHENTICATED = 'IS_AUTHENTICATED';
 export const CLOSE_MESSAGES = ' CLOSE_MESSAGES';
 
@@ -14,8 +14,8 @@ export const messages = (data) => {
   return { type: MESSAGES, payload: data };
 };
 
-export const _formErrors = (data) => {
-  return { type: FORM_ERRORS, payload: data };
+export const formValidation = (data) => {
+  return { type: FORM_VALIDATION, payload: data };
 };
 export const closeMessages = (data) => {
   return { type: CLOSE_MESSAGES, payload: data };

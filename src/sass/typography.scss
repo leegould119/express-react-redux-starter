@@ -26,9 +26,19 @@ h5 {
 }
 
 h1 {
-  margin-top: 0;
+  display: inline;
   font-size: 3.052em;
-  font-family: 'Kanit', sans-serif;
+  background: linear-gradient(
+    90deg,
+    rgba(237, 110, 6, 1) 0%,
+    rgba(224, 107, 94, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  padding: 20px;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-transform: uppercase;
 }
 
 h2 {
