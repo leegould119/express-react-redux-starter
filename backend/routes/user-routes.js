@@ -3,7 +3,7 @@ const passport = require('passport');
 const genPassword = require('../lib/passwordUtils').genPassword;
 const connection = require('../config/database');
 const User = require('../models/UserSchema');
-
+const Profile = require('../models/UserProfileSchema');
 router.post('/logout', (req, res, next) => {
   req.logOut();
   res.json({ isLoggedIn: false });
@@ -67,6 +67,39 @@ router.post('/authorised', (req, res, next) => {
       res.json({ isLoggedIn: false });
       next(error);
     });
+});
+
+router.post('/profile', (req, res, next) => {
+  let userId = req.body.userId;
+  const newUserProfile = new Profile({
+    userId: req.body.userId,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    phoneNumber: req.body.phoneNumber,
+    gender: req.body.gender,
+    dateOfBirth: req.body.dateOfBirth,
+    address: {
+      street: req.body.address.street,
+      city: req.body.address.city,
+      state: req.body.address.state,
+      postalCode: req.body.address.postalCode
+    }
+  });
+  Profile.find({ userId: userId }).then((users) => {
+    // res.json(users);
+    if (!users) {
+      newUserProfile.save().then((profile) => {
+        res.send(profile);
+        next();
+      });
+    } else {
+      res.send({
+        error: 'profile error',
+        message: 'this user already has a profile'
+      });
+      next();
+    }
+  });
 });
 
 module.exports = router;
