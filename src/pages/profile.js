@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import registerUser from '../api/postProfile';
+import axios from 'axios';
 const States = [
   'Ångermanland',
   'Blekinge',
@@ -167,11 +168,51 @@ const Cities = [
 ];
 
 class Profile extends Component {
-  register = () => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedFiles: null,
+      imageSrc: null
+    };
+  }
+
+  // https://programmingwithmosh.com/javascript/react-file-upload-proper-server-side-nodejs-easy/
+  // register = () => {
+  //   let { userId } = this.props;
+  //   registerUser(userId).then((resp) => {
+  //     console.log(JSON.stringify(resp));
+  //   });
+  // };
+
+  getFile = (event) => {
     let { userId } = this.props;
-    registerUser(userId).then((resp) => {
-      console.log(JSON.stringify(resp));
-    });
+    let fd = event.target.files[0];
+    const formdata = new FormData();
+    formdata.append('file', fd);
+
+    let reader = new FileReader();
+    let imageUrl = reader.readAsDataURL(fd);
+    axios({
+      method: 'post',
+      url: 'http://localhost:3000/upload-profile-pic',
+      data: formdata
+      // headers: { 'Content-Type': 'multipart/form-data' }
+    })
+      .then(function (response) {
+        //handle success
+        console.log(response.data);
+      })
+      .catch(function (response) {
+        //handle error
+        console.log(response);
+      });
+
+    reader.onloadend = (e) => {
+      this.setState({
+        imageSrc: [reader.result]
+      });
+    };
+    console.log(this.state.imageSrc);
   };
   render() {
     return (
@@ -179,9 +220,22 @@ class Profile extends Component {
         <div className="background" />
         <section style={{ position: 'absolute' }}>
           <h1>your profile</h1>
-          <a href="#" onClick={this.register}>
+          <form encType="multipart/form-data">
+            <input type="file" name="profile_pic" onChange={this.getFile} />
+          </form>
+          <img
+            style={{
+              width: '200px',
+              height: '200px',
+              position: 'absolute',
+              top: '20%',
+              left: '20%'
+            }}
+            src={this.state.imageSrc}
+          />
+          {/* <a href="#" onClick={this.register}>
             register
-          </a>
+          </a> */}
         </section>
       </React.Fragment>
     );

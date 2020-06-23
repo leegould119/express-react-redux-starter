@@ -2,14 +2,17 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const passport = require('passport');
+const helpers = require('./helpers');
 const port = process.env.port || 3000;
-
+const multer = require('multer');
+const path = require('path');
 // CORS - cross origin resource sharing
 const corsMethod = {
   origin: '*',
   methods: 'GET,HEAD,POST,PUT,PATCH, DELETE',
   credentials: true
 };
+
 app.use(cors(corsMethod));
 
 function errorHandler(err, req, res, next) {
@@ -20,7 +23,43 @@ function errorHandler(err, req, res, next) {
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(passport.initialize());
-// api routes {THE FRONTEND HITS THESE ROUTES}
+app.use(express.static(__dirname + '/public'));
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      'user-avatar-image' + Date.now() + path.extname(file.originalname)
+    );
+  }
+});
+
+app.post('/upload-profile-pic', (req, res) => {
+  // 'profile_pic' is the name of our file input field in the HTML form
+  let upload = multer({
+    storage: storage,
+    fileFilter: helpers.imageFilter
+  }).single('file');
+
+  upload(req, res, function (err) {
+    // req.file contains information of uploaded file
+    // req.body contains information of text fields, if there were any
+    console.log(req);
+    if (req.fileValidationError) {
+      return res.send(req.fileValidationError);
+    } else if (!req.file) {
+      return res.send('Please select an image to upload');
+    } else if (err instanceof multer.MulterError) {
+      return res.send(err);
+    } else if (err) {
+      return res.send(err);
+    }
+    res.send(req.file.path);
+  });
+});
 
 //passport config {USED FOR AUTHENTICATION}
 require('./config/passport-setup');
