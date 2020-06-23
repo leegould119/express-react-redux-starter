@@ -2,171 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import registerUser from '../api/postProfile';
 import axios from 'axios';
-const States = [
-  'Ångermanland',
-  'Blekinge',
-  'Bohuslän',
-  'Dalarna',
-  'Dalsland',
-  'Gotland',
-  'Gästrikland',
-  'Halland',
-  'Hälsingland',
-  'Härjedalen',
-  'Jämtland',
-  'Lappland',
-  'Medelpad',
-  'Norrbotten',
-  'Närke',
-  'Öland',
-  'Östergötland',
-  'Skåne',
-  'Småland',
-  'Södermanland',
-  'Uppland',
-  'Värmland',
-  'Västmanland',
-  'Västerbotten',
-  'Västergötland'
-];
-
-const Cities = [
-  'Alingsås',
-  'Åmål',
-  'Ängelholm',
-  'Arboga',
-  'Arvika',
-  'Askersund',
-  'Avesta',
-  'Boden',
-  'Bollnäs',
-  'Borgholm',
-  'Borlänge',
-  'Borås',
-  'Djursholm',
-  'Eksjö',
-  'Enköping',
-  'Eskilstuna',
-  'Eslöv',
-  'Fagersta',
-  'Falkenberg',
-  'Falköping',
-  'Falsterbo',
-  'Falun',
-  'Filipstad',
-  'Flen',
-  'Gothenburg',
-  'Gränna',
-  'Gävle',
-  'Hagfors',
-  'Halmstad',
-  'Haparanda',
-  'Hedemora',
-  'Helsingborg',
-  'Hjo',
-  'Hudiksvall',
-  'Huskvarna',
-  'Härnösand',
-  'Hässleholm',
-  'Höganäs',
-  'Jönköping',
-  'Kalmar',
-  'Karlshamn',
-  'Karlskoga',
-  'Karlskrona',
-  'Karlstad',
-  'Katrineholm',
-  'Kiruna',
-  'Kramfors',
-  'Kristianstad',
-  'Kristinehamn',
-  'Kumla',
-  'Kungsbacka',
-  'Kungälv',
-  'Köping',
-  'Laholm',
-  'Landskrona',
-  'Lidingö',
-  'Lidköping',
-  'Lindesberg',
-  'Linköping',
-  'Ljungby',
-  'Ludvika',
-  'Luleå',
-  'Lund',
-  'Lycksele',
-  'Lysekil',
-  'Malmö',
-  'Mariefred',
-  'Mariestad',
-  'Marstrand',
-  'Mjölby',
-  'Motala',
-  'Nacka',
-  'Nora',
-  'Norrköping',
-  'Norrtälje',
-  'Nybro',
-  'Nyköping',
-  'Nynäshamn',
-  'Nässjö',
-  'Örebro',
-  'Öregrund',
-  'Örnsköldsvik',
-  'Oskarshamn',
-  'Östersund',
-  'Östhammar',
-  'Oxelösund',
-  'Piteå',
-  'Ronneby',
-  'Sala',
-  'Sandviken',
-  'Sigtuna',
-  'Simrishamn',
-  'Skanör',
-  'Skanör med Falsterbo',
-  'Skara',
-  'Skellefteå',
-  'Skänninge',
-  'Skövde',
-  'Sollefteå',
-  'Solna',
-  'Stockholm',
-  'Strängnäs',
-  'Strömstad',
-  'Sundbyberg',
-  'Sundsvall',
-  'Säffle',
-  'Säter',
-  'Sävsjö',
-  'Söderhamn',
-  'Söderköping',
-  'Södertälje',
-  'Sölvesborg',
-  'Tidaholm',
-  'Torshälla',
-  'Tranås',
-  'Trelleborg',
-  'Trollhättan',
-  'Trosa',
-  'Uddevalla',
-  'Ulricehamn',
-  'Umeå',
-  'Uppsala',
-  'Vadstena',
-  'Varberg',
-  'Vaxholm',
-  'Vetlanda',
-  'Vimmerby',
-  'Visby',
-  'Vänersborg',
-  'Värnamo',
-  'Västervik',
-  'Västerås',
-  'Växjö',
-  'Ystad'
-];
-
+import maleProfile from '../img/male-profile.svg';
+import uploadIcon from '../img/pen-solid.svg';
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -177,12 +14,12 @@ class Profile extends Component {
   }
 
   // https://programmingwithmosh.com/javascript/react-file-upload-proper-server-side-nodejs-easy/
-  // register = () => {
-  //   let { userId } = this.props;
-  //   registerUser(userId).then((resp) => {
-  //     console.log(JSON.stringify(resp));
-  //   });
-  // };
+  register = () => {
+    let { userId } = this.props;
+    registerUser(userId).then((resp) => {
+      console.log(JSON.stringify(resp));
+    });
+  };
 
   getFile = (event) => {
     let { userId } = this.props;
@@ -218,21 +55,62 @@ class Profile extends Component {
     return (
       <React.Fragment>
         <div className="background" />
-        <section style={{ position: 'absolute' }}>
-          <h1>your profile</h1>
-          <form encType="multipart/form-data">
-            <input type="file" name="profile_pic" onChange={this.getFile} />
-          </form>
+        <section
+          style={{
+            width: 'auto',
+            height: '200px',
+            padding: '40px',
+            position: 'absolute'
+          }}
+        >
           <img
+            src={this.state.imageSrc ? this.state.imageSrc : maleProfile}
             style={{
-              width: '200px',
-              height: '200px',
-              position: 'absolute',
-              top: '20%',
-              left: '20%'
+              border: '5px solid rgba(255,255,255,1)',
+              boxShadow: '1px 1px 5px 1px rgba(55,55, 54, 0.3)',
+              borderRadius: '50%',
+              display: 'inline-block',
+              width: '120px',
+              height: '120px',
+              verticalAlign: 'middle'
             }}
-            src={this.state.imageSrc}
           />
+          <form encType="multipart/form-data">
+            <label
+              htmlFor="file-input"
+              style={{
+                cursor: 'pointer',
+                zIndex: '3'
+              }}
+            >
+              <img
+                style={{
+                  // margin: '10px 10px 0px 0px',
+                  // float: 'left',
+                  position: 'absolute',
+                  top: '50px',
+                  left: '130px',
+                  width: '30px',
+                  height: '30px',
+                  backgroundColor: 'rgba(255,255,255,1)',
+                  boxShadow: '0.5px 0.5px 5px 0.5px rgba(0, 0, 0, 0.3)',
+                  borderRadius: '50%',
+                  cursor: 'pointer',
+                  display: 'inline-block'
+                }}
+                src={uploadIcon}
+              />
+            </label>
+
+            <input
+              style={{ display: 'none' }}
+              type="file"
+              id="file-input"
+              name="profile_pic"
+              onChange={this.getFile}
+            />
+          </form>
+          <h1 style={{ display: 'inline' }}>register</h1>
           {/* <a href="#" onClick={this.register}>
             register
           </a> */}
