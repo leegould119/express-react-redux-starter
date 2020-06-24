@@ -12,66 +12,67 @@
   // transition: a 0.5s ease-in-out;
   animation-duration: 0.5s;
   animation-name: bounceIn;
-  input[type] {
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    outline: none;
-    display: block;
-    width: calc(100% - 20px);
-    padding: 14px 10px 14px 10px;
-    border: none;
-    border-bottom: 1px solid $light-grey;
-    background: transparent;
-    margin: 10px 0px 10px 10px;
-  }
-  .form-header {
-    text-align: center;
-    h2 {
-      font-size: 3em;
-      font-family: 'Kanit', sans-serif;
-      background: linear-gradient(
-        90deg,
-        rgba(237, 110, 6, 1) 0%,
-        rgba(224, 107, 94, 1) 35%,
-        rgba(0, 212, 255, 1) 100%
-      );
-      text-transform: uppercase;
-      font-weight: 100;
-      padding: 20px;
-      color: transparent;
-      -webkit-background-clip: text;
-      background-clip: text;
-      text-transform: uppercase;
-      margin: 0;
-    }
-  }
-
-  input[type='button'],
-  input[type='submit'] {
-    background: rgba(224, 107, 94, 1);
-    display: inline-block;
-    cursor: pointer;
-    color: $white;
-    font-size: 1em;
-    padding: 13px 18px;
-    transition: all 0.5s ease-in-out;
-    text-decoration: none;
-    &:hover {
-      background: rgba(204, 87, 74, 1);
-    }
-  }
-  a {
-    cursor: pointer;
-    font-size: 0.8em;
-    margin-left: 20px;
-    color: #ff6f68;
-    font-weight: 200;
-    text-decoration: none;
-    border-bottom: 1px dashed #ff6f68;
-    border-radius: 2px;
+}
+input[type] {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  display: block;
+  width: calc(100% - 20px);
+  padding: 14px 10px 14px 10px;
+  border: none;
+  border-bottom: 1px solid $light-grey;
+  background: transparent;
+  margin: 10px 0px 10px 10px;
+}
+.form-header {
+  text-align: center;
+  h2 {
+    font-size: 3em;
+    font-family: 'Kanit', sans-serif;
+    background: linear-gradient(
+      90deg,
+      rgba(237, 110, 6, 1) 0%,
+      rgba(224, 107, 94, 1) 35%,
+      rgba(0, 212, 255, 1) 100%
+    );
+    text-transform: uppercase;
+    font-weight: 100;
+    padding: 20px;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-transform: uppercase;
+    margin: 0;
   }
 }
+
+input[type='button'],
+input[type='submit'] {
+  background: rgba(224, 107, 94, 1);
+  display: inline-block;
+  cursor: pointer;
+  color: $white;
+  font-size: 1em;
+  padding: 13px 18px;
+  transition: all 0.5s ease-in-out;
+  text-decoration: none;
+  &:hover {
+    background: rgba(204, 87, 74, 1);
+  }
+}
+a {
+  cursor: pointer;
+  font-size: 0.8em;
+  margin-left: 20px;
+  color: #ff6f68;
+  font-weight: 200;
+  text-decoration: none;
+  border-bottom: 1px dashed #ff6f68;
+  border-radius: 2px;
+}
+
 .background {
   display: block;
   position: absolute;
@@ -207,4 +208,77 @@
   animation-duration: calc(var(--animate-duration) * 0.75);
   -webkit-animation-name: bounceIn;
   animation-name: bounceIn;
+}
+
+/*******************************************************************************************************
+RADIO-BUTTON STYLE'S
+********************************************************************************************************/
+
+/* Customize the label (the container) */
+.inputContainer {
+  display: block;
+  position: relative;
+  margin-left: 15px;
+  padding-left: 25px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 0.8em;
+  color: rgba(104, 104, 104, 1);
+
+  /* Hide the browser's default radio button */
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  /* Create a custom radio button */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: $light-grey;
+
+    border-radius: 50%;
+  }
+
+  /* On mouse-over, add a grey background color */
+  &:hover input ~ .checkmark {
+    background-color: $dark-grey;
+  }
+
+  /* When the radio button is checked, add a blue background */
+  input:checked ~ .checkmark {
+    background-color: $dark-grey;
+  }
+
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  .checkmark:after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the indicator (dot/circle) when checked */
+  input:checked ~ .checkmark:after {
+    display: block;
+  }
+
+  /* Style the indicator (dot/circle) */
+  .checkmark:after {
+    top: 6px;
+    left: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+  }
 }

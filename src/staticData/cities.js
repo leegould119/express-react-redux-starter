@@ -1,4 +1,4 @@
-export const Cities = [
+const Cities = [
   'Alingsås',
   'Åmål',
   'Ängelholm',
@@ -134,3 +134,5 @@ export const Cities = [
   'Växjö',
   'Ystad'
 ];
+
+export default Cities;

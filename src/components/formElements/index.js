@@ -1,4 +1,7 @@
 import Button from './button';
 import Input from './input';
 import Checkbox from './checkbox';
-export { Button, Input, Checkbox };
+import AvatarUpload from './avatarUpload';
+import RadioButton from './radioButton';
+import Select from './Select';
+export { Button, Input, Checkbox, Select, RadioButton, AvatarUpload };

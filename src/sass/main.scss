@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700&display=swap');
-@import 'error-page', 'colors', 'typography', 'mixins', 'forms', 'notifications';
+@import 'error-page', 'colors', 'typography', 'mixins', 'forms', 'notifications',
+  'simple-grid';
 
 // font-family: 'Raleway', sans-serif;
 
@@ -21,4 +22,10 @@ body {
   margin: 30px auto -40px;
   background-image: url('../img/logo.svg');
   background-repeat: no-repeat;
+}
+
+.dark-orange {
+  color: $white;
+  background-color: $light-grey;
+  display: block;
 }

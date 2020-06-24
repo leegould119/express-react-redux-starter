@@ -7,12 +7,11 @@ const CheckBox = (props) => {
           <label key={option}>
             {props.title}
             <input
-              id={props.name}
-              name={props.name}
-              //   onChange={props.handleChange}
-              value={option}
-              //   checked={props.selectedOptions.indexOf(option) > -1}
               type="checkbox"
+              checked={option.checked}
+              onChange={option.handleChange}
+              options={option.option}
+              // {...props}
             />
             {option}
           </label>

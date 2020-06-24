@@ -25,3 +25,5 @@ const States = [
   'Västerbotten',
   'Västergötland'
 ];
+
+export default States;
