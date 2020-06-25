@@ -223,34 +223,40 @@ class Login extends Component {
     return (
       <React.Fragment>
         <div className="background" />
-        {(() => {
-          switch (formName) {
-            case 'Login':
-              return (
-                <LoginForm
-                  handleSubmit={this.handleSubmit}
-                  handleChange={this.handleChange}
-                  handleFormChange={this.handleFormChange}
-                  formErrors={formErrors}
-                  formIsValid={formIsValid}
-                />
-              );
-              break;
-            case 'Register':
-              return (
-                <RegisterForm
-                  handleSubmit={this.handleSubmit}
-                  handleChange={this.handleChange}
-                  handleFormChange={this.handleFormChange}
-                  formErrors={formErrors}
-                  formIsValid={formIsValid}
-                />
-              );
-              break;
-            default:
-              break;
-          }
-        })()}
+        <div className="container ">
+          <div className="row">
+            <div className="col-5" style={{ marginTop: '100px' }}>
+              {(() => {
+                switch (formName) {
+                  case 'Login':
+                    return (
+                      <LoginForm
+                        handleSubmit={this.handleSubmit}
+                        handleChange={this.handleChange}
+                        handleFormChange={this.handleFormChange}
+                        formErrors={formErrors}
+                        formIsValid={formIsValid}
+                      />
+                    );
+                    break;
+                  case 'Register':
+                    return (
+                      <RegisterForm
+                        handleSubmit={this.handleSubmit}
+                        handleChange={this.handleChange}
+                        handleFormChange={this.handleFormChange}
+                        formErrors={formErrors}
+                        formIsValid={formIsValid}
+                      />
+                    );
+                    break;
+                  default:
+                    break;
+                }
+              })()}
+            </div>
+          </div>
+        </div>
 
         <Toast />
       </React.Fragment>

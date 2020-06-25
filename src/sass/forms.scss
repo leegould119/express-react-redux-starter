@@ -1,8 +1,7 @@
 .form {
-  position: absolute;
-  width: 300px;
-  left: calc(25% - 150px);
-  top: 25%;
+  overflow: hidden;
+  border-left: 5px solid rgba(222, 98, 98, 1);
+  width: calc(100% -5px);
   height: auto;
   background-color: $white;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
@@ -12,7 +11,9 @@
   // transition: a 0.5s ease-in-out;
   animation-duration: 0.5s;
   animation-name: bounceIn;
+  border-radius: 3px;
 }
+
 input[type] {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -50,7 +51,7 @@ input[type] {
 
 input[type='button'],
 input[type='submit'] {
-  background: rgba(224, 107, 94, 1);
+  background: $red;
   display: inline-block;
   cursor: pointer;
   color: $white;
@@ -59,7 +60,7 @@ input[type='submit'] {
   transition: all 0.5s ease-in-out;
   text-decoration: none;
   &:hover {
-    background: rgba(204, 87, 74, 1);
+    background: $dark-red;
   }
 }
 a {
@@ -75,7 +76,7 @@ a {
 
 .background {
   display: block;
-  position: absolute;
+  position: fixed;
   background-image: url('../img/background.jpg');
   background-position: center center;
   background-repeat: no-repeat;
@@ -83,35 +84,17 @@ a {
   width: 100%;
   height: 100%;
 }
-// .form {
-//   max-width: 500px;
-//   padding: 30px;
-//   background: #ffffff;
-//   margin: 50px auto;
-//   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
-//   -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
-//   -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
 
-//
-
-//
-//   textarea {
-//     resize: none;
-//     overflow: hidden;
-//   }
-//
-//   input[type='button']:hover,
-//   input[type='submit']:hover {
-//     background: linear-gradient(to bottom, #34caca 5%, #30c9c9 100%);
-//     background-color: #34caca;
-//   }
-//   input::selection {
-//     background: #fff; /* WebKit/Blink Browsers */
-//   }
-//   input::-moz-selection {
-//     background: #fff; /* Gecko Browsers */
-//   }
-// }
+.label {
+  color: $dark-red;
+  font-family: 'Kanit', sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: block;
+  padding: 10px 20px 10px 20px;
+}
 
 @-webkit-keyframes bounceIn {
   from,
@@ -245,19 +228,19 @@ RADIO-BUTTON STYLE'S
     left: 0;
     height: 20px;
     width: 20px;
-    background-color: $light-grey;
-
+    background-color: $red;
+    transition: all 0.5s ease-in-out;
     border-radius: 50%;
   }
 
   /* On mouse-over, add a grey background color */
   &:hover input ~ .checkmark {
-    background-color: $dark-grey;
+    background-color: $dark-red;
   }
 
   /* When the radio button is checked, add a blue background */
   input:checked ~ .checkmark {
-    background-color: $dark-grey;
+    background-color: $red;
   }
 
   /* Create the indicator (the dot/circle - hidden when not checked) */
