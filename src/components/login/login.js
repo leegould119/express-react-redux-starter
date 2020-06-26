@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Button, Checkbox } from '../formElements';
+import { Input, Button } from '../formElements';
 
 const login = ({
   handleFormChange,
@@ -50,14 +50,6 @@ const login = ({
       <a name="Register" onClick={handleFormChange}>
         Register
       </a>
-      {/* <Checkbox
-        id="skills"
-        title={'Skills'}
-        name={'skills'}
-        options={skillOptions}
-        selectedOptions={'Development'}
-        // handleChange={this.handleCheckBox}
-      /> */}
     </div>
   );
 };

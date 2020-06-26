@@ -22,6 +22,7 @@ const States = [
   { value: 'Uppland', label: 'Uppland' },
   { value: 'Värmland', label: 'Värmland' },
   { value: 'Västmanland', label: 'Västmanland' },
+  { value: 'Vasternorrland', label: 'Vasternorrland' },
   { value: 'Västerbotten', label: 'Västerbotten' },
   { value: 'Västergötland', label: 'Västergötland' }
 ];

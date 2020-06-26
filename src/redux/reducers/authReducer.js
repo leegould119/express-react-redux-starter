@@ -25,7 +25,7 @@ const authReducer = (state = initialState, action) => {
     case FORM_VALIDATION:
       return {
         ...state,
-        isLoggedIn: false,
+        // isLoggedIn: false,
         formIsValid: true,
         formErrors: action.payload.formErrors,
         formIsValid: action.payload.formIsValid
