@@ -69,6 +69,20 @@ router.post('/authorised', (req, res, next) => {
     });
 });
 
+router.get('/profile/:id', (req, res, next) => {
+  let uId = req.params.id;
+  Profile.find({ userId: uId })
+    .then((profile) => {
+      res.send(profile);
+    })
+    .catch((err) => {
+      res.send({
+        error: 'profile error',
+        message: 'can not find this user profile'
+      });
+    });
+});
+
 router.post('/profile', (req, res, next) => {
   let userId = req.body.userId;
   const newUserProfile = new Profile({
@@ -77,7 +91,13 @@ router.post('/profile', (req, res, next) => {
     lastName: req.body.lastName,
     phoneNumber: req.body.phoneNumber,
     gender: req.body.gender,
-    dateOfBirth: req.body.dateOfBirth,
+    avatarUrl: req.body.avatarUrl,
+    socialLinks: {
+      facebookLink: req.body.socialLinks.facebookLink,
+      twitterLink: req.body.socialLinks.twitterLink,
+      pinterestLink: req.body.socialLinks.pinterestLink,
+      linkedinLink: req.body.socialLinks.linkedinLink
+    },
     address: {
       street: req.body.address.street,
       city: req.body.address.city,
@@ -85,21 +105,24 @@ router.post('/profile', (req, res, next) => {
       postalCode: req.body.address.postalCode
     }
   });
-  Profile.find({ userId: userId }).then((users) => {
-    // res.json(users);
-    if (!users) {
-      newUserProfile.save().then((profile) => {
-        res.send(profile);
+  Profile.find({ userId: userId })
+    .then((users) => {
+      if (users.length == 0) {
+        newUserProfile.save().then((profile) => {
+          res.send(profile);
+          next();
+        });
+      } else {
+        res.send({
+          error: 'profile error',
+          message: 'this user already has a profile'
+        });
         next();
-      });
-    } else {
-      res.send({
-        error: 'profile error',
-        message: 'this user already has a profile'
-      });
-      next();
-    }
-  });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 module.exports = router;

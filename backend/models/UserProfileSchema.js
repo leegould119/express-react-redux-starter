@@ -10,6 +10,15 @@ const AddressSchema = new Schema(
   },
   { _id: false }
 );
+const SocialLinksSchema = new Schema(
+  {
+    facebookLink: String,
+    twitterLink: String,
+    pinterestLink: String,
+    linkedinLink: String
+  },
+  { _id: false }
+);
 
 const ProfileSchema = new Schema({
   userId: {
@@ -20,7 +29,8 @@ const ProfileSchema = new Schema({
   lastName: String,
   phoneNumber: Number,
   gender: String,
-  dateOfBirth: Date,
+  avatarUrl: String,
+  socialLinks: SocialLinksSchema,
   address: AddressSchema
 });
 

@@ -12,6 +12,7 @@ import Authenticate from '../utils/Authenticate';
 import { connect } from 'react-redux';
 import { loginUser, logoutUser } from '../redux/actions/actions';
 
+const AuthProfile = Authenticate(Profile);
 // PAGES
 import Login from '../pages/login';
 import '../sass/main.scss';
@@ -78,8 +79,8 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/" component={Login} />
-          {/* <Route path="/profile" component={Authenticate(Profile)} /> */}
-          <Route path="/profile" component={Profile} />
+          <Route path="/profile" component={AuthProfile} />
+          {/* <Route path="/profile" component={Profile} /> */}
           <Route path="*" component={Page404} />
         </Switch>
       </Router>

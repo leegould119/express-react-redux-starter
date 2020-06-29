@@ -11,13 +11,13 @@ const createProfile = (props) => {
       <div className="container ">
         <div className="row">
           <div className="col-12">
-            <form className="form" onSubmit={props.handleSubmit}>
-              {/* <div className="dark-orange">
+            <form className="form" method="POST" onSubmit={props.handleSubmit}>
+              <div className="dark-orange">
                 <AvatarUpload
                   imageSrc={props.imageSrc}
                   getFile={props.getFile}
                 />
-              </div> */}
+              </div>
               <div className="col-6">
                 <label className="label">Personal info</label>
 
@@ -28,6 +28,7 @@ const createProfile = (props) => {
                   placeholder="First name"
                   onChange={props.handleChange}
                 />
+
                 <label className={props.formIsValid ? '' : 'errorMessages'}>
                   {props.formErrors['firstName'] ? (
                     <span> {props.formErrors['firstName']}</span>
@@ -41,6 +42,7 @@ const createProfile = (props) => {
                   name="lastName"
                   placeholder="Last name"
                   onChange={props.handleChange}
+                  // value={props.userProfileData.lastName || ''}
                 />
                 <label className={props.formIsValid ? '' : 'errorMessages'}>
                   {props.formErrors['lastName'] ? (
@@ -55,6 +57,11 @@ const createProfile = (props) => {
                   name="phoneNumber"
                   placeholder="Phone number"
                   onChange={props.handleChange}
+                  // value={
+                  //   props.userProfileData.phoneNumber
+                  //     ? props.userProfileData.phoneNumber
+                  //     : ''
+                  // }
                 />
                 <label className={props.formIsValid ? '' : 'errorMessages'}>
                   {props.formErrors['phoneNumber'] ? (
@@ -130,6 +137,11 @@ const createProfile = (props) => {
                   name="streetAddress"
                   placeholder="Street address"
                   onChange={props.handleChange}
+                  // value={
+                  //   props.userProfileData.address.street
+                  //     ? props.userProfileData.address.street
+                  //     : ''
+                  // }
                 />
                 <label className={props.formIsValid ? '' : 'errorMessages'}>
                   {props.formErrors['streetAddress'] ? (
@@ -144,6 +156,11 @@ const createProfile = (props) => {
                   name="postalCode"
                   placeholder="Postal code"
                   onChange={props.handleChange}
+                  // value={
+                  //   props.userProfileData.address.postalCode
+                  //     ? props.userProfileData.address.postalCode
+                  //     : ''
+                  // }
                 />
                 <label className={props.formIsValid ? '' : 'errorMessages'}>
                   {props.formErrors['postalCode'] ? (
@@ -162,6 +179,11 @@ const createProfile = (props) => {
                   name="facebookLink"
                   placeholder="Facebook"
                   onChange={props.handleChange}
+                  // value={
+                  //   props.userProfileData.socialLinks.facebookLink
+                  //     ? props.userProfileData.socialLinks.facebookLink
+                  //     : ''
+                  // }
                 />
                 <Input
                   type="link"
@@ -169,6 +191,11 @@ const createProfile = (props) => {
                   name="twitterLink"
                   placeholder="Twitter"
                   onChange={props.handleChange}
+                  // value={
+                  //   props.userProfileData.socialLinks.twitterLink
+                  //     ? props.userProfileData.socialLinks.twitterLink
+                  //     : ''
+                  // }
                 />
                 <Input
                   type="link"
@@ -176,6 +203,11 @@ const createProfile = (props) => {
                   name="pinterestLink"
                   placeholder="Pinterest"
                   onChange={props.handleChange}
+                  // value={
+                  //   props.userProfileData.socialLinks.pinterestLink
+                  //     ? props.userProfileData.socialLinks.pinterestLink
+                  //     : ''
+                  // }
                 />
                 <Input
                   type="link"
@@ -183,6 +215,11 @@ const createProfile = (props) => {
                   name="linkedinLink"
                   placeholder="Linkedin"
                   onChange={props.handleChange}
+                  // value={
+                  //   props.userProfileData.socialLinks.linkedinLink
+                  //     ? props.userProfileData.socialLinks.linkedinLink
+                  //     : ''
+                  // }
                 />
               </div>
               <div className="col-6">
@@ -192,6 +229,11 @@ const createProfile = (props) => {
                     id="gender"
                     options={genderOptions}
                     handleChange={props.handleRadioButtonChange}
+                    // data={
+                    //   props.userProfileData.gender
+                    //     ? props.userProfileData.gender
+                    //     : null
+                    // }
                   />
                 </div>
               </div>

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import registerUserProfile from '../api/postProfile';
+import getUserProfile from '../api/getUserProfileApi';
 import uploadAvatar from '../api/postAvatarUpload';
 import { Cities, States } from '../staticData';
 import { CreateProfile } from '../components';
@@ -9,6 +10,7 @@ import {
   formValidation,
   closeMessages
 } from '../redux/actions/actions';
+
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +20,7 @@ class Profile extends Component {
       checked: null,
       selectedCity: null,
       selectedState: null,
+      gender: null,
       // form values
       firstName: null,
       lastName: null,
@@ -29,16 +32,43 @@ class Profile extends Component {
       pinterestLink: null,
       linkedinLink: null,
       errors: {},
-      formIsValid: true
+      formIsValid: true,
+      avatarUrl: null,
+      userProfileData: {
+        userId: null,
+        firstName: null,
+        lastName: null,
+        phoneNumber: null,
+        gender: null,
+        avatarUrl: null,
+        socialLinks: {
+          facebookLink: null,
+          twitterLink: null,
+          pinterestLink: null,
+          linkedinLink: null
+        },
+        address: {
+          street: null,
+          city: null,
+          state: null,
+          postalCode: null
+        }
+      }
     };
   }
 
-  registerProfile = () => {
+  componentDidMount = () => {
+    this.getUserProfileData();
+  };
+  // get the user profile
+  getUserProfileData = async () => {
     let { userId } = this.props;
-    console.log('register profile');
-    // registerUserProfile(userId).then((resp) => {
-    //   console.log(JSON.stringify(resp));
-    // });
+    await getUserProfile(userId).then((resp) => {
+      console.log(JSON.stringify(resp[0]));
+      this.setState({ userProfileData: resp[0] }, () => {
+        console.log(this.state.userProfileData);
+      });
+    });
   };
   // gets the file from the fileInput
   getFile = (event) => {
@@ -50,6 +80,7 @@ class Profile extends Component {
     // upload avatar image
     uploadAvatar(formdata).then((response) => {
       console.log(response);
+      this.setState({ avatarUrl: response });
     });
 
     // render the uploaded file here
@@ -61,36 +92,43 @@ class Profile extends Component {
       });
     };
   };
+
   // handles the city change
   handleCitySelectChange = (selectedOption) => {
     this.setState({ selectedCity: selectedOption.value }, () => {
       console.log(this.state.selectedCity);
     });
   };
+
   // handles the state change
   handleStateSelectChange = (selectedOption) => {
     this.setState({ selectedState: selectedOption.value }, () => {
       console.log(this.state.selectedState);
     });
   };
+
   // handles the radiobutton changes
   handleRadioButtonChange = (event) => {
     let value = event.target.value;
-    this.setState({ checked: value }, () => {
-      console.log(this.state.checked);
+    this.setState({ gender: value }, () => {
+      console.log(this.state.gender);
     });
   };
+
+  // handle change on inputs
   handleChange = (event) => {
     const { name, value } = event.target;
     this.setState({ [name]: value }, () => {
       console.log(name + ':' + value);
     });
   };
-  // Validation
+
+  // submit validate then register
   handleSubmit = (e) => {
     e.preventDefault();
     this.handleValidation();
   };
+  // validate user
   handleValidation = (e) => {
     let errors = {};
     let formIsValid = true;
@@ -147,8 +185,55 @@ class Profile extends Component {
         formIsValid: formIsValid
       };
       this.handleFormErrors(data);
-      // this.registerProfile();
+      this.registerProfile();
     }
+  };
+
+  // register user
+  registerProfile = () => {
+    let { userId } = this.props;
+    let {
+      firstName,
+      lastName,
+      phoneNumber,
+      gender,
+      avatarUrl,
+      facebookLink,
+      twitterLink,
+      pinterestLink,
+      linkedinLink,
+      streetAddress,
+      selectedCity,
+      selectedState,
+      postalCode
+    } = this.state;
+
+    console.log('register profile');
+
+    const data = {
+      userId: userId,
+      firstName: firstName,
+      lastName: lastName,
+      phoneNumber: parseInt(phoneNumber),
+      gender: gender,
+      avatarUrl: avatarUrl,
+      socialLinks: {
+        facebookLink: facebookLink,
+        twitterLink: twitterLink,
+        pinterestLink: pinterestLink,
+        linkedinLink: linkedinLink
+      },
+      address: {
+        street: streetAddress,
+        city: selectedCity,
+        state: selectedState,
+        postalCode: parseInt(postalCode)
+      }
+    };
+    console.log(data);
+    registerUserProfile(userId, data).then((resp) => {
+      console.log(JSON.stringify(resp));
+    });
   };
 
   handleFormErrors = (data) => {
@@ -157,10 +242,12 @@ class Profile extends Component {
   };
 
   render() {
-    let { imageSrc } = this.state;
+    let { imageSrc, avatarUrl, userProfileData } = this.state;
     let { formErrors, formIsValid } = this.props;
+
     return (
       <CreateProfile
+        userProfileData={userProfileData}
         imageSrc={imageSrc}
         getFile={this.getFile}
         States={States}

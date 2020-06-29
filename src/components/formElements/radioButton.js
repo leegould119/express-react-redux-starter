@@ -7,7 +7,28 @@ const radioButton = (props) => {
         return (
           <label key={index} className="inputContainer">
             {option}
-            <input type="radio" id={option} value={option} name={props.id} />
+            {(() => {
+              if (props.data === option) {
+                return (
+                  <input
+                    type="radio"
+                    id={option}
+                    value={option}
+                    name={props.id}
+                    checked
+                  />
+                );
+              } else {
+                return (
+                  <input
+                    type="radio"
+                    id={option}
+                    value={option}
+                    name={props.id}
+                  />
+                );
+              }
+            })()}
             <span className="checkmark" />
           </label>
         );

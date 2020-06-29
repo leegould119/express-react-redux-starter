@@ -1,21 +1,18 @@
 import axios from 'axios';
 
-const registerProfile = async (_id, data) => {
-  console.log(data);
+const getUserProfile = async (_id) => {
   console.log(_id);
-  const apiEndPoint = 'http://localhost:3000/profile';
+  const apiEndPoint = 'http://localhost:3000/profile/' + _id;
   const headers = {
     'cache-control': 'no-cache'
   };
 
   return await axios({
-    method: 'post',
+    method: 'get',
     url: apiEndPoint,
-    headers: headers,
-    data: data
+    headers: headers
   })
     .then((resp) => {
-      console.log(resp.data);
       return resp.data;
     })
     .catch((err) => {
@@ -24,4 +21,4 @@ const registerProfile = async (_id, data) => {
     });
 };
 
-export default registerProfile;
+export default getUserProfile;

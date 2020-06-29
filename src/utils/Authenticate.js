@@ -4,6 +4,7 @@ import { messages } from '../redux/actions/actions';
 export default function (ComposedComponent) {
   class Authenticate extends Component {
     componentDidMount = (e) => {
+      // e.preventDefault();
       if (!this.props.isLoggedIn) {
         console.log('you need to login to get this page');
         let { sendMessage } = this.props;
@@ -21,9 +22,8 @@ export default function (ComposedComponent) {
         sendMessage(data);
         this.props.history.push(`/`);
       } else {
-        // console.log('you are logged in');
+        return false;
       }
-      e.preventDefault();
     };
 
     render() {

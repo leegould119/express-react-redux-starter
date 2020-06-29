@@ -9,6 +9,7 @@ const Input = (props) => {
       autoComplete={props.autoComplete}
       onChange={props.handleChange}
       placeholder={props.placeholder}
+      defaultValue={props.defaultValue}
       {...props}
     />
   );
