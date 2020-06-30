@@ -1,9 +1,9 @@
 import React from 'react';
 import Select from 'react-select';
 import { AvatarUpload, Input, RadioButton, Button } from '../formElements';
+
 import customStyles from '../../utils/customStyles';
 const createProfile = (props) => {
-  //   let { imageSrc } = props;
   let genderOptions = ['Male', 'Female'];
   return (
     <React.Fragment>
@@ -14,6 +14,7 @@ const createProfile = (props) => {
             <form className="form" method="POST" onSubmit={props.handleSubmit}>
               <div className="dark-orange">
                 <AvatarUpload
+                  imageLink={props.imageLink}
                   imageSrc={props.imageSrc}
                   getFile={props.getFile}
                 />
@@ -27,6 +28,7 @@ const createProfile = (props) => {
                   name="firstName"
                   placeholder="First name"
                   onChange={props.handleChange}
+                  value={props.formVals.firstName}
                 />
 
                 <label className={props.formIsValid ? '' : 'errorMessages'}>
@@ -42,7 +44,7 @@ const createProfile = (props) => {
                   name="lastName"
                   placeholder="Last name"
                   onChange={props.handleChange}
-                  // value={props.userProfileData.lastName || ''}
+                  value={props.formVals.lastName}
                 />
                 <label className={props.formIsValid ? '' : 'errorMessages'}>
                   {props.formErrors['lastName'] ? (
@@ -51,17 +53,13 @@ const createProfile = (props) => {
                     ''
                   )}
                 </label>
-                <Input
+                <input
                   type="tel"
                   autoComplete="phone-number"
                   name="phoneNumber"
                   placeholder="Phone number"
                   onChange={props.handleChange}
-                  // value={
-                  //   props.userProfileData.phoneNumber
-                  //     ? props.userProfileData.phoneNumber
-                  //     : ''
-                  // }
+                  value={props.formVals.phoneNumber}
                 />
                 <label className={props.formIsValid ? '' : 'errorMessages'}>
                   {props.formErrors['phoneNumber'] ? (
@@ -87,6 +85,8 @@ const createProfile = (props) => {
                     id="state"
                     options={props.States}
                     styles={customStyles}
+                    value={props.selectedState}
+                    label={props.selectedState}
                     isSearchable={true}
                     onChange={props.handleStateSelectChange}
                     placeholder={'State'}
@@ -116,6 +116,8 @@ const createProfile = (props) => {
                     id="city"
                     options={props.Cities}
                     styles={customStyles}
+                    value={props.selectedCity}
+                    label={props.selectedCity}
                     isSearchable={true}
                     onChange={props.handleCitySelectChange}
                     placeholder={'City'}
@@ -137,11 +139,7 @@ const createProfile = (props) => {
                   name="streetAddress"
                   placeholder="Street address"
                   onChange={props.handleChange}
-                  // value={
-                  //   props.userProfileData.address.street
-                  //     ? props.userProfileData.address.street
-                  //     : ''
-                  // }
+                  value={props.formVals.streetAddress}
                 />
                 <label className={props.formIsValid ? '' : 'errorMessages'}>
                   {props.formErrors['streetAddress'] ? (
@@ -156,11 +154,7 @@ const createProfile = (props) => {
                   name="postalCode"
                   placeholder="Postal code"
                   onChange={props.handleChange}
-                  // value={
-                  //   props.userProfileData.address.postalCode
-                  //     ? props.userProfileData.address.postalCode
-                  //     : ''
-                  // }
+                  value={props.formVals.postalCode}
                 />
                 <label className={props.formIsValid ? '' : 'errorMessages'}>
                   {props.formErrors['postalCode'] ? (
@@ -179,11 +173,7 @@ const createProfile = (props) => {
                   name="facebookLink"
                   placeholder="Facebook"
                   onChange={props.handleChange}
-                  // value={
-                  //   props.userProfileData.socialLinks.facebookLink
-                  //     ? props.userProfileData.socialLinks.facebookLink
-                  //     : ''
-                  // }
+                  value={props.formVals.facebookLink}
                 />
                 <Input
                   type="link"
@@ -191,11 +181,7 @@ const createProfile = (props) => {
                   name="twitterLink"
                   placeholder="Twitter"
                   onChange={props.handleChange}
-                  // value={
-                  //   props.userProfileData.socialLinks.twitterLink
-                  //     ? props.userProfileData.socialLinks.twitterLink
-                  //     : ''
-                  // }
+                  value={props.formVals.twitterLink}
                 />
                 <Input
                   type="link"
@@ -203,11 +189,7 @@ const createProfile = (props) => {
                   name="pinterestLink"
                   placeholder="Pinterest"
                   onChange={props.handleChange}
-                  // value={
-                  //   props.userProfileData.socialLinks.pinterestLink
-                  //     ? props.userProfileData.socialLinks.pinterestLink
-                  //     : ''
-                  // }
+                  value={props.formVals.pinterestLink}
                 />
                 <Input
                   type="link"
@@ -215,11 +197,7 @@ const createProfile = (props) => {
                   name="linkedinLink"
                   placeholder="Linkedin"
                   onChange={props.handleChange}
-                  // value={
-                  //   props.userProfileData.socialLinks.linkedinLink
-                  //     ? props.userProfileData.socialLinks.linkedinLink
-                  //     : ''
-                  // }
+                  value={props.formVals.linkedinLink}
                 />
               </div>
               <div className="col-6">
@@ -229,17 +207,13 @@ const createProfile = (props) => {
                     id="gender"
                     options={genderOptions}
                     handleChange={props.handleRadioButtonChange}
-                    // data={
-                    //   props.userProfileData.gender
-                    //     ? props.userProfileData.gender
-                    //     : null
-                    // }
+                    data={props.formVals.gender}
                   />
                 </div>
               </div>
               <div className="col-12">
                 <div style={{ width: '180px' }}>
-                  <Button value="Update profile" />
+                  <Button value="Create profile" />
                 </div>
               </div>
             </form>

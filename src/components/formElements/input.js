@@ -5,7 +5,7 @@ const Input = (props) => {
       id={props.name}
       name={props.name}
       type={props.type}
-      value={props.value}
+      value={props.value || ''}
       autoComplete={props.autoComplete}
       onChange={props.handleChange}
       placeholder={props.placeholder}

@@ -4,6 +4,14 @@ import maleProfile from '../../img/male-profile.svg';
 import uploadIcon from '../../img/pen-solid.svg';
 
 function avatarUpload(props) {
+  console.log(props.imageLink);
+  console.log(props.imageSrc);
+  let link = null;
+  if (props.imageSrc == 0) {
+    link = 'http://localhost:8080/uploads/' + props.imageLink;
+  } else {
+    link = props.imageSrc;
+  }
   return (
     <React.Fragment>
       <section
@@ -16,11 +24,8 @@ function avatarUpload(props) {
         }}
       >
         <div
-          //   src={props.imageSrc ? props.imageSrc : maleProfile}
           style={{
-            backgroundImage: `url(${
-              props.imageSrc ? props.imageSrc : maleProfile
-            })`,
+            backgroundImage: `url(${link ? link : maleProfile})`,
             backgroundPosition: 'center center',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',

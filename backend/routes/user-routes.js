@@ -4,12 +4,15 @@ const genPassword = require('../lib/passwordUtils').genPassword;
 const connection = require('../config/database');
 const User = require('../models/UserSchema');
 const Profile = require('../models/UserProfileSchema');
+const { findByIdAndUpdate, findOneAndUpdate } = require('../models/UserSchema');
+// logout
 router.post('/logout', (req, res, next) => {
   req.logOut();
   res.json({ isLoggedIn: false });
   next();
 });
 
+// login
 router.post('/login', passport.authenticate('local'), (req, res, next) => {
   try {
     const user = req.user;
@@ -25,6 +28,7 @@ router.post('/login', passport.authenticate('local'), (req, res, next) => {
   }
 });
 
+// register
 router.post('/register', (req, res, next) => {
   let username = { username: req.body.uname };
 
@@ -56,6 +60,7 @@ router.post('/register', (req, res, next) => {
     });
 });
 
+// check auth
 router.post('/authorised', (req, res, next) => {
   const id = req.body.id;
   User.findById(id)
@@ -69,6 +74,7 @@ router.post('/authorised', (req, res, next) => {
     });
 });
 
+// search for the profile
 router.get('/profile/:id', (req, res, next) => {
   let uId = req.params.id;
   Profile.find({ userId: uId })
@@ -83,8 +89,10 @@ router.get('/profile/:id', (req, res, next) => {
     });
 });
 
+//create profile
 router.post('/profile', (req, res, next) => {
   let userId = req.body.userId;
+  // console.log(JSON.stringify(req.body));
   const newUserProfile = new Profile({
     userId: req.body.userId,
     firstName: req.body.firstName,
@@ -122,6 +130,45 @@ router.post('/profile', (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
+    });
+});
+
+// update profile
+router.post('/update-profile', (req, res, next) => {
+  const filter = { userId: req.body.userId };
+  // console.log(filter);
+
+  const update = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    phoneNumber: req.body.phoneNumber,
+    gender: req.body.gender,
+    // avatarUrl: req.body.avatarUrl,
+    socialLinks: {
+      facebookLink: req.body.socialLinks.facebookLink,
+      twitterLink: req.body.socialLinks.twitterLink,
+      pinterestLink: req.body.socialLinks.pinterestLink,
+      linkedinLink: req.body.socialLinks.linkedinLink
+    },
+    address: {
+      street: req.body.address.street,
+      city: req.body.address.city,
+      state: req.body.address.state,
+      postalCode: req.body.address.postalCode
+    }
+  };
+  const options = { upsert: false, new: true };
+
+  Profile.findOneAndUpdate(filter, update, options)
+    .then((resp) => {
+      // console.log(resp);
+      res.send(resp);
+      next();
+    })
+    .catch((err) => {
+      // console.log(err);
+      res.send(err);
+      next();
     });
 });
 

@@ -79,8 +79,8 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/" component={Login} />
-          <Route path="/profile" component={AuthProfile} />
-          {/* <Route path="/profile" component={Profile} /> */}
+          {/* <Route path="/profile" component={AuthProfile} /> */}
+          <Route path="/profile" component={Profile} />
           <Route path="*" component={Page404} />
         </Switch>
       </Router>
