@@ -4,4 +4,13 @@ import Checkbox from './checkbox';
 import AvatarUpload from './avatarUpload';
 import RadioButton from './radioButton';
 import Select from './Select';
-export { Button, Input, Checkbox, Select, RadioButton, AvatarUpload };
+import UserAvatar from './userAvatar';
+export {
+  Button,
+  Input,
+  Checkbox,
+  Select,
+  RadioButton,
+  AvatarUpload,
+  UserAvatar
+};

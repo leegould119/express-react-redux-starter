@@ -131,6 +131,11 @@ class Login extends Component {
         let { sendMessage, login } = this.props;
         console.log(resp);
         if (resp === 'Request failed with status code 401') {
+          let isNotLoggedIn = {
+            userId: '',
+            isLoggedIn: false
+          };
+          login(isNotLoggedIn);
           let data = {
             Notifications: {
               Info: '',
@@ -138,11 +143,10 @@ class Login extends Component {
               Success: '',
               Error: 'Error',
               Message: 'Username or password is incorrect.'
-            },
-            userId: '',
-            isLoggedIn: false
+            }
           };
           sendMessage(data);
+
           return;
         } else {
           // data sent

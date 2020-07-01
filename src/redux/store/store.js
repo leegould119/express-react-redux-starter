@@ -1,4 +1,4 @@
-import { authReducer, alertsReducer } from '../reducers';
+import { authReducer, alertsReducer, profileReducer } from '../reducers';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import sessionStorage from 'redux-persist/lib/storage/session';
@@ -13,7 +13,8 @@ const persistConfig = {
 
 const allReducers = combineReducers({
   auth: authReducer,
-  alerts: alertsReducer
+  alerts: alertsReducer,
+  profile: profileReducer
 });
 
 const pReducer = persistReducer(persistConfig, allReducers);

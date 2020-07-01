@@ -4,14 +4,18 @@ import maleProfile from '../../img/male-profile.svg';
 import uploadIcon from '../../img/pen-solid.svg';
 
 function avatarUpload(props) {
-  console.log(props.imageLink);
-  console.log(props.imageSrc);
   let link = null;
-  if (props.imageSrc == 0) {
+  // set the link src
+  if (props.imageSrc.length == 0) {
     link = 'http://localhost:8080/uploads/' + props.imageLink;
   } else {
     link = props.imageSrc;
   }
+  // if links are null, then display the default profile image
+  if (props.imageLink === null && props.imageSrc.length == 0) {
+    link = null;
+  }
+
   return (
     <React.Fragment>
       <section
@@ -35,9 +39,10 @@ function avatarUpload(props) {
             display: 'inline-block',
             width: '120px',
             height: '120px',
-            verticalAlign: 'middle'
+            verticalAlign: 'middle',
+            overflow: 'hidden'
           }}
-        />
+        ></div>
 
         <label
           htmlFor="file-input"

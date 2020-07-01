@@ -1,14 +1,18 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import registerUserProfile from '../api/postProfile';
+import updateUserProfile from '../api/updateUserProfile';
 import getUserProfile from '../api/getUserProfileApi';
 import uploadAvatar from '../api/postAvatarUpload';
 import { Cities, States } from '../staticData';
 import { CreateProfile, Toast } from '../components';
+import { UserAvatar } from '../components/formElements';
 import {
   messages,
   formValidation,
-  closeMessages
+  closeMessages,
+  isProfileComplete,
+  getUserAvatar
 } from '../redux/actions/actions';
 
 class Profile extends Component {
@@ -16,11 +20,12 @@ class Profile extends Component {
     super(props);
     this.state = {
       selectedFiles: '',
+      avatarUrl: '',
       imageSrc: '',
       checked: '',
       selectedCity: '',
       selectedState: '',
-      imageLink: '',
+      imageLink: null,
       // form values
       formVals: {
         firstName: '',
@@ -66,11 +71,18 @@ class Profile extends Component {
   };
   // get the user profile
   getUserProfileData = async () => {
-    let { userId } = this.props;
+    let {
+      userId,
+      isProfileComplete,
+      profileIsComplete,
+      userAvatar
+    } = this.props;
     await getUserProfile(userId).then((resp) => {
       this.setState({ userProfileData: resp[0] });
     });
+
     if (!this.state.userProfileData) {
+      profileIsComplete(false);
       return;
     } else {
       await this.setState({
@@ -95,14 +107,27 @@ class Profile extends Component {
           pinterestLink: this.state.userProfileData.socialLinks.pinterestLink
         }
       });
-
-      let origLink = this.state.userProfileData.avatarUrl;
-      //link for avatar image
-      let link = origLink.substring(8);
-      console.log(link);
-      await this.setState({ imageLink: link });
+      // set the state in redux
+      profileIsComplete(true);
+      if (this.state.userProfileData.avatarUrl != null) {
+        let origLink = this.state.userProfileData.avatarUrl;
+        //link for avatar image
+        let link = origLink.substring(8);
+        // console.log(link);
+        await this.setState({
+          imageLink: link,
+          avatarUrl: this.state.userProfileData.avatarUrl
+        });
+      }
+      let data = {
+        avatarUrl: this.state.imageLink,
+        firstName: this.state.userProfileData.firstName,
+        lastName: this.state.userProfileData.lastName
+      };
+      userAvatar(data);
     }
   };
+
   // gets the file from the fileInput
   getFile = (event) => {
     //the input
@@ -135,7 +160,7 @@ class Profile extends Component {
         }
       },
       () => {
-        console.log(this.state.selectedCity);
+        // console.log(this.state.selectedCity);
       }
     );
   };
@@ -150,7 +175,7 @@ class Profile extends Component {
         }
       },
       () => {
-        console.log(this.state.selectedState);
+        // console.log(this.state.selectedState);
       }
     );
   };
@@ -159,9 +184,12 @@ class Profile extends Component {
   handleRadioButtonChange = (event) => {
     let value = event.target.value;
     this.setState(
-      (prevstate) => ({ formVals: { ...prevstate.formVals, gender: value } }),
+      (prevstate) => ({
+        ...prevstate.avatarUrl,
+        formVals: { ...prevstate.formVals, gender: value }
+      }),
       () => {
-        console.log(this.state.formVals.gender);
+        // console.log(this.state.formVals.gender);
       }
     );
   };
@@ -170,9 +198,12 @@ class Profile extends Component {
   handleChange = (event) => {
     const { name, value } = event.target;
     this.setState(
-      (prevstate) => ({ formVals: { ...prevstate.formVals, [name]: value } }),
+      (prevstate) => ({
+        ...prevstate.avatarUrl,
+        formVals: { ...prevstate.formVals, [name]: value }
+      }),
       () => {
-        console.log(name + ':' + value);
+        // console.log(name + ':' + value);
       }
     );
   };
@@ -183,17 +214,19 @@ class Profile extends Component {
     e.preventDefault();
     this.handleValidation();
   };
+
   // validate user
   handleValidation = (e) => {
+    let { isProfileComplete } = this.props;
     let errors = {};
     let formIsValid = true;
 
-    console.log(this.state.formVals.firstName);
+    // console.log(this.state.formVals.firstName);
     if (this.state.formVals.firstName == '') {
       formIsValid = false;
       errors['firstName'] = 'First name cannot be empty';
     }
-    console.log(this.state.formVals.lastName);
+    // console.log(this.state.formVals.lastName);
     if (this.state.formVals.lastName == '') {
       formIsValid = false;
       errors['lastName'] = 'Last name cannot be empty';
@@ -232,16 +265,21 @@ class Profile extends Component {
         formIsValid: formIsValid
       };
       this.handleFormErrors(data);
-      this.registerProfile();
+      if (isProfileComplete == false) {
+        this.registerProfile();
+      } else {
+        console.log('update user profile');
+        this.updateProfile();
+      }
     }
   };
 
   // register user
   registerProfile = () => {
-    let { userId, sendMessage } = this.props;
+    let { userId, sendMessage, userAvatar } = this.props;
     let { formVals, avatarUrl, selectedCity, selectedState } = this.state;
-
-    console.log('register profile' + JSON.stringify(formVals));
+    // console.log('register profile' + JSON.stringify(formVals));
+    console.log(avatarUrl);
     let _phoneNumber = formVals.phoneNumber;
     let _postalCode = formVals.postalCode;
     const data = {
@@ -264,8 +302,9 @@ class Profile extends Component {
         postalCode: parseInt(_postalCode)
       }
     };
-    registerUserProfile(userId, data).then((resp) => {
-      console.log(resp);
+    registerUserProfile(userId, data).then(async (resp) => {
+      // console.log(resp);
+
       if (resp.error === 'profile error') {
         let data = {
           Notifications: {
@@ -274,6 +313,85 @@ class Profile extends Component {
             Success: '',
             Error: 'Error',
             Message: resp.message
+          }
+        };
+        sendMessage(data);
+      } else {
+        let data = {
+          Notifications: {
+            Info: '',
+            Warning: '',
+            Success: 'Success',
+            Error: '',
+            Message: 'Your profile has been created successfully.'
+          }
+        };
+        sendMessage(data);
+        let avatarData = {
+          avatarUrl: resp.avatarUrl,
+          firstName: resp.firstName,
+          lastName: resp.lastName
+        };
+        userAvatar(avatarData);
+      }
+    });
+  };
+
+  // update user
+  updateProfile = () => {
+    let { userId, sendMessage, userAvatar } = this.props;
+    let { formVals, avatarUrl, selectedCity, selectedState } = this.state;
+    // console.log('register profile' + JSON.stringify(formVals));
+    let _phoneNumber = formVals.phoneNumber;
+    let _postalCode = formVals.postalCode;
+    const data = {
+      userId: userId,
+      firstName: formVals.firstName,
+      lastName: formVals.lastName,
+      phoneNumber: parseInt(_phoneNumber),
+      gender: formVals.gender,
+      avatarUrl: avatarUrl,
+      socialLinks: {
+        facebookLink: formVals.facebookLink,
+        twitterLink: formVals.twitterLink,
+        pinterestLink: formVals.pinterestLink,
+        linkedinLink: formVals.linkedinLink
+      },
+      address: {
+        street: formVals.streetAddress,
+        city: selectedCity.value,
+        state: selectedState.value,
+        postalCode: parseInt(_postalCode)
+      }
+    };
+    updateUserProfile(data).then((resp) => {
+      console.log(resp);
+
+      if (resp.error === 'update error') {
+        let data = {
+          Notifications: {
+            Info: '',
+            Warning: '',
+            Success: '',
+            Error: 'Error',
+            Message: resp.message
+          }
+        };
+        sendMessage(data);
+      } else {
+        let avatarData = {
+          avatarUrl: resp.avatarUrl,
+          firstName: resp.firstName,
+          lastName: resp.lastName
+        };
+        userAvatar(avatarData);
+        let data = {
+          Notifications: {
+            Info: '',
+            Warning: '',
+            Success: 'Success',
+            Error: '',
+            Message: 'Your profile has been updated successfully'
           }
         };
         sendMessage(data);
@@ -290,22 +408,19 @@ class Profile extends Component {
     let {
       imageLink,
       imageSrc,
-      avatarUrl,
-      userProfileData,
       selectedCity,
       selectedState,
       formVals
-      // gender
     } = this.state;
-    let { formErrors, formIsValid } = this.props;
-    console.log(imageLink);
+    let { formErrors, formIsValid, isProfileComplete } = this.props;
 
     return (
       <React.Fragment>
+        <UserAvatar />
         <CreateProfile
-          // userProfileData={userProfileData}
+          isProfileComplete={isProfileComplete}
           gender={formVals.gender}
-          imageLink={this.state.imageLink}
+          imageLink={imageLink}
           imageSrc={imageSrc}
           getFile={this.getFile}
           States={States}
@@ -334,7 +449,9 @@ const mapStateToProps = (state, ownProps = {}) => {
     Notifications: state.auth.Notifications,
     userId: state.auth.userId,
     formErrors: state.auth.formErrors,
-    formIsValid: state.auth.formIsValid
+    formIsValid: state.auth.formIsValid,
+    userAvatar: state.profile.userAvatar,
+    isProfileComplete: state.profile.isProfileComplete
   };
 };
 
@@ -348,6 +465,12 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     closeMessageBox: (data) => {
       dispatch(closeMessages(data));
+    },
+    userAvatar: (data) => {
+      dispatch(getUserAvatar(data));
+    },
+    profileIsComplete: (data) => {
+      dispatch(isProfileComplete(data));
     }
   };
 };

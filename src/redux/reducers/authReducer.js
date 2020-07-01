@@ -9,7 +9,7 @@ import {
 // get the initial state
 const initialState = {
   userId: null,
-  isLoggedIn: null,
+  isLoggedIn: false,
   formErrors: {},
   formIsValid: true
 };

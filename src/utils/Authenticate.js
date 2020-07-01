@@ -21,6 +21,7 @@ export default function (ComposedComponent) {
         };
         sendMessage(data);
         this.props.history.push(`/`);
+        // window.location.replace('/');
       } else {
         return false;
       }

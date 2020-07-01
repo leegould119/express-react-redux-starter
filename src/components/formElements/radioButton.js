@@ -1,6 +1,7 @@
 import React from 'react';
 
 const radioButton = (props) => {
+  console.log(props.data);
   return (
     <div onChange={props.handleChange}>
       {props.options.map((option, index) => {

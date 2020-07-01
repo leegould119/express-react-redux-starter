@@ -5,7 +5,8 @@ export const MESSAGES = 'MESSAGES';
 export const FORM_VALIDATION = 'FORM_VALIDATION';
 export const IS_AUTHENTICATED = 'IS_AUTHENTICATED';
 export const CLOSE_MESSAGES = ' CLOSE_MESSAGES';
-
+export const IS_PROFILE_COMPLETE = 'IS_PROFILE_COMPLETE';
+export const USER_AVATAR = 'USER_AVATAR';
 export const loginUser = (data) => {
   return { type: LOG_IN, payload: data };
 };
@@ -27,4 +28,12 @@ export const logoutUser = (data) => {
 
 export const isAuthenticated = (data) => {
   return { type: IS_AUTHENTICATED, payload: data };
+};
+
+export const isProfileComplete = (data) => {
+  return { type: IS_PROFILE_COMPLETE, payload: data };
+};
+
+export const getUserAvatar = (data) => {
+  return { type: USER_AVATAR, payload: data };
 };

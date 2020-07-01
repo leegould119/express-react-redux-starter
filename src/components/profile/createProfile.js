@@ -1,10 +1,17 @@
 import React from 'react';
 import Select from 'react-select';
-import { AvatarUpload, Input, RadioButton, Button } from '../formElements';
+import {
+  AvatarUpload,
+  Input,
+  RadioButton,
+  Button,
+  UserAvatar
+} from '../formElements';
 
 import customStyles from '../../utils/customStyles';
 const createProfile = (props) => {
   let genderOptions = ['Male', 'Female'];
+  // console.log('is user profile complete : ' + props.isProfileComplete);
   return (
     <React.Fragment>
       <div className="background" />
@@ -213,7 +220,13 @@ const createProfile = (props) => {
               </div>
               <div className="col-12">
                 <div style={{ width: '180px' }}>
-                  <Button value="Create profile" />
+                  <Button
+                    value={
+                      props.isProfileComplete
+                        ? 'Update profile'
+                        : 'Create profile'
+                    }
+                  />
                 </div>
               </div>
             </form>

@@ -143,7 +143,7 @@ router.post('/update-profile', (req, res, next) => {
     lastName: req.body.lastName,
     phoneNumber: req.body.phoneNumber,
     gender: req.body.gender,
-    // avatarUrl: req.body.avatarUrl,
+    avatarUrl: req.body.avatarUrl,
     socialLinks: {
       facebookLink: req.body.socialLinks.facebookLink,
       twitterLink: req.body.socialLinks.twitterLink,
@@ -161,13 +161,17 @@ router.post('/update-profile', (req, res, next) => {
 
   Profile.findOneAndUpdate(filter, update, options)
     .then((resp) => {
-      // console.log(resp);
       res.send(resp);
       next();
     })
     .catch((err) => {
-      // console.log(err);
-      res.send(err);
+      console.log(err);
+      // res.send(err);
+
+      res.send({
+        error: 'update error',
+        message: 'There was an error.' + err
+      });
       next();
     });
 });
