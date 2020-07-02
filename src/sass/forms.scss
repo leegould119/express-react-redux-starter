@@ -12,6 +12,7 @@
   animation-duration: 0.5s;
   animation-name: bounceIn;
   border-radius: 3px;
+  margin-top: 70px;
 }
 
 input[type] {
@@ -263,5 +264,21 @@ RADIO-BUTTON STYLE'S
     height: 8px;
     border-radius: 50%;
     background: white;
+  }
+}
+
+.logoutButton {
+  background-image: url('../img/logout.svg');
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  z-index: 3000;
+  cursor: pointer;
+  border: 0;
+  margin: 7px;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background-image: url('../img/logout-hover.svg');
+    margin: 7px;
   }
 }

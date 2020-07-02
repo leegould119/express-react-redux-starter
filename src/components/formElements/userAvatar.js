@@ -7,12 +7,12 @@ class UserAvatar extends Component {
     return (
       <section
         style={{
-          width: 'auto',
-          margin: '0 auto',
-          //   height: '30px',
-          padding: '10px',
-          position: 'absolute',
-          zIndex: '3000'
+          display: 'inline-block',
+          zIndex: '3000',
+          marginLeft: '20px',
+          backgroundColor: 'rgba(204, 87, 74, 1)',
+          padding: '5px',
+          borderRadius: '30px 0px 0px 30px'
         }}
       >
         <div
@@ -27,22 +27,23 @@ class UserAvatar extends Component {
             backgroundSize: 'cover',
             boxShadow: '1px 1px 5px 1px rgba(55,55, 54, 0.3)',
             borderRadius: '50%',
-            display: 'inline-block',
+            display: 'inline-flex',
             width: '25px',
             height: '25px',
             verticalAlign: 'middle',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            marginLeft: '3px'
           }}
         ></div>
         <span
           style={{
             color: 'white',
             marginLeft: '10px',
-            fontSize: '1em',
+            fontSize: '0.8em',
             fontWeight: '100'
           }}
         >
-          {firstName + ' ' + lastName}
+          User: {firstName + ' ' + lastName}
         </span>
       </section>
     );

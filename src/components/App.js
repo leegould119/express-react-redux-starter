@@ -7,15 +7,18 @@ import postRegister from '../api/postRegisterApi';
 import checkAuth from '../api/checkAuthApi';
 import Page404 from '../pages/error404';
 import Profile from '../pages/profile';
+import Blogs from '../pages/blogs';
 import Authenticate from '../utils/Authenticate';
 // redux
 import { connect } from 'react-redux';
 import { loginUser, logoutUser } from '../redux/actions/actions';
 
 const AuthProfile = Authenticate(Profile);
+const AuthBlogs = Authenticate(Blogs);
 // PAGES
 import Login from '../pages/login';
 import '../sass/main.scss';
+import { Header } from '../components';
 
 class App extends Component {
   login = () => {
@@ -76,14 +79,16 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
-        <Switch>
-          <Route exact path="/" component={Login} />
-          <Route path="/profile" component={AuthProfile} />
-          {/* <Route path="/profile" component={Profile} /> */}
-          <Route path="*" component={Page404} />
-        </Switch>
-      </Router>
+      <React.Fragment>
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Login} />
+            <Route path="/profile" component={AuthProfile} />
+            <Route path="/blogs" component={AuthBlogs} />
+            <Route path="*" component={Page404} />
+          </Switch>
+        </Router>
+      </React.Fragment>
     );
   }
 }

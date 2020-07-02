@@ -5,8 +5,7 @@ import updateUserProfile from '../api/updateUserProfile';
 import getUserProfile from '../api/getUserProfileApi';
 import uploadAvatar from '../api/postAvatarUpload';
 import { Cities, States } from '../staticData';
-import { CreateProfile, Toast } from '../components';
-import { UserAvatar } from '../components/formElements';
+import { CreateProfile, Toast, Header } from '../components';
 import {
   messages,
   formValidation,
@@ -118,13 +117,13 @@ class Profile extends Component {
           imageLink: link,
           avatarUrl: this.state.userProfileData.avatarUrl
         });
+        let data = {
+          avatarUrl: link,
+          firstName: this.state.userProfileData.firstName,
+          lastName: this.state.userProfileData.lastName
+        };
+        userAvatar(data);
       }
-      let data = {
-        avatarUrl: this.state.imageLink,
-        firstName: this.state.userProfileData.firstName,
-        lastName: this.state.userProfileData.lastName
-      };
-      userAvatar(data);
     }
   };
 
@@ -327,8 +326,11 @@ class Profile extends Component {
           }
         };
         sendMessage(data);
+        let origLink = resp.avatarUrl;
+        //link for avatar image
+        let link = origLink.substring(8);
         let avatarData = {
-          avatarUrl: resp.avatarUrl,
+          avatarUrl: link,
           firstName: resp.firstName,
           lastName: resp.lastName
         };
@@ -379,8 +381,11 @@ class Profile extends Component {
         };
         sendMessage(data);
       } else {
+        let origLink = resp.avatarUrl;
+        //link for avatar image
+        let link = origLink.substring(8);
         let avatarData = {
-          avatarUrl: resp.avatarUrl,
+          avatarUrl: link,
           firstName: resp.firstName,
           lastName: resp.lastName
         };
@@ -416,7 +421,7 @@ class Profile extends Component {
 
     return (
       <React.Fragment>
-        <UserAvatar />
+        <Header />
         <CreateProfile
           isProfileComplete={isProfileComplete}
           gender={formVals.gender}

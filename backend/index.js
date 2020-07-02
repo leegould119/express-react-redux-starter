@@ -64,6 +64,7 @@ app.post('/upload-profile-pic', (req, res) => {
 //passport config {USED FOR AUTHENTICATION}
 require('./config/passport-setup');
 app.use('/', require('./routes/user-routes'));
+app.use('/blog', require('./routes/blog-routes'));
 app.use(errorHandler);
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));

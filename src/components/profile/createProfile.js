@@ -14,7 +14,6 @@ const createProfile = (props) => {
   // console.log('is user profile complete : ' + props.isProfileComplete);
   return (
     <React.Fragment>
-      <div className="background" />
       <div className="container ">
         <div className="row">
           <div className="col-12">

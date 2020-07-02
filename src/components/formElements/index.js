@@ -5,6 +5,7 @@ import AvatarUpload from './avatarUpload';
 import RadioButton from './radioButton';
 import Select from './Select';
 import UserAvatar from './userAvatar';
+import LogoutButton from './logoutButton';
 export {
   Button,
   Input,
@@ -12,5 +13,6 @@ export {
   Select,
   RadioButton,
   AvatarUpload,
-  UserAvatar
+  UserAvatar,
+  LogoutButton
 };
