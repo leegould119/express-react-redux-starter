@@ -61,6 +61,42 @@ app.post('/upload-profile-pic', (req, res) => {
   });
 });
 
+const bannerstorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      'blog-banner-image' + Date.now() + path.extname(file.originalname)
+    );
+  }
+});
+
+app.post('/upload-banner-pic', (req, res) => {
+  // 'profile_pic' is the name of our file input field in the HTML form
+  let upload = multer({
+    storage: bannerstorage,
+    fileFilter: helpers.imageFilter
+  }).single('file');
+
+  upload(req, res, function (err) {
+    // req.file contains information of uploaded file
+    // req.body contains information of text fields, if there were any
+    console.log(req);
+    if (req.fileValidationError) {
+      return res.send(req.fileValidationError);
+    } else if (!req.file) {
+      return res.send('Please select an image to upload');
+    } else if (err instanceof multer.MulterError) {
+      return res.send(err);
+    } else if (err) {
+      return res.send(err);
+    }
+    res.send(req.file.path);
+  });
+});
+
 //passport config {USED FOR AUTHENTICATION}
 require('./config/passport-setup');
 app.use('/', require('./routes/user-routes'));

@@ -34,7 +34,7 @@ function avatarUpload(props) {
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
             border: '5px solid rgba(255,255,255,1)',
-            boxShadow: '1px 1px 5px 1px rgba(55,55, 54, 0.3)',
+            // boxShadow: '1px 1px 5px 1px rgba(55,55, 54, 0.3)',
             borderRadius: '50%',
             display: 'inline-block',
             width: '120px',
@@ -59,7 +59,7 @@ function avatarUpload(props) {
               width: '30px',
               height: '30px',
               backgroundColor: 'rgba(255,255,255,1)',
-              boxShadow: '0.5px 0.5px 5px 0.5px rgba(0, 0, 0, 0.3)',
+              // boxShadow: '0.5px 0.5px 5px 0.5px rgba(0, 0, 0, 0.3)',
               borderRadius: '50%',
               cursor: 'pointer',
               display: 'inline-block'

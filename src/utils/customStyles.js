@@ -5,7 +5,7 @@ const customStyles = {
   indicatorSeparator: (styles) => ({ display: 'none' }),
   option: (provided, state) => ({
     ...provided,
-    borderBottom: '1px solid rgba(240,240,240,1)',
+    borderBottom: '1px solid rgba(230,230,230,1)',
     width: '100%'
   }),
   menu: (provided, state) => ({
@@ -27,7 +27,7 @@ const customStyles = {
     '&:hover': {
       border: state.isFocused ? 0 : 0
     },
-    borderBottom: '1px solid rbga(204,204,204,1)'
+    borderBottom: '1px solid rbga(230,230,230,1)'
   }),
   singleValue: (provided, state) => {
     const opacity = state.isDisabled ? 0.5 : 1;

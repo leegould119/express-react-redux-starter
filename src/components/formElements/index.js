@@ -6,6 +6,7 @@ import RadioButton from './radioButton';
 import Select from './Select';
 import UserAvatar from './userAvatar';
 import LogoutButton from './logoutButton';
+import SocialLinks from './socialLinks';
 export {
   Button,
   Input,
@@ -14,5 +15,6 @@ export {
   RadioButton,
   AvatarUpload,
   UserAvatar,
-  LogoutButton
+  LogoutButton,
+  SocialLinks
 };

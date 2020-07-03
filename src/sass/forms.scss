@@ -1,17 +1,18 @@
 .form {
   overflow: hidden;
-  border-left: 5px solid rgba(222, 98, 98, 1);
-  width: calc(100% -5px);
+  // border-left: 5px solid rgba(222, 98, 98, 1);
+  border: 1px solid rgba(225, 225, 225, 1);
+  width: calc(100% - 20px);
   height: auto;
   background-color: $white;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
-  -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
-  -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+  // box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+  // -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+  // -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
   padding-bottom: 20px;
   // transition: a 0.5s ease-in-out;
   animation-duration: 0.5s;
   animation-name: bounceIn;
-  border-radius: 3px;
+  // border-radius: 3px;
   margin-top: 70px;
 }
 
@@ -28,6 +29,24 @@ input[type] {
   background: transparent;
   margin: 10px 0px 10px 10px;
 }
+textarea {
+  border: 0;
+  border-bottom: 1px solid $light-grey;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  display: block;
+  margin: 10px;
+  padding: 14px 10px 14px 10px;
+  width: calc(100% - 20px);
+  resize: none;
+  background: transparent;
+  min-height: 250px;
+  max-height: 1000px;
+}
+
 .form-header {
   text-align: center;
   h2 {
@@ -39,6 +58,7 @@ input[type] {
       rgba(224, 107, 94, 1) 35%,
       rgba(0, 212, 255, 1) 100%
     );
+
     text-transform: uppercase;
     font-weight: 100;
     padding: 20px;
@@ -55,8 +75,9 @@ input[type='submit'] {
   background: $red;
   display: inline-block;
   cursor: pointer;
+  margin: 0;
   color: $white;
-  font-size: 1em;
+  font-size: 0.9em;
   padding: 13px 18px;
   transition: all 0.5s ease-in-out;
   text-decoration: none;
@@ -74,6 +95,9 @@ a {
   border-bottom: 1px dashed #ff6f68;
   border-radius: 2px;
 }
+input:-internal-autofill-selected {
+  background-color: $white;
+}
 
 .background {
   display: block;
@@ -87,10 +111,11 @@ a {
 }
 
 .label {
-  color: $dark-red;
-  font-family: 'Kanit', sans-serif;
-  font-weight: bold;
-  font-size: 1em;
+  color: $grey;
+  // font-family: 'Kanit', sans-serif;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+  font-size: 1.1em;
   text-decoration: none;
   text-transform: uppercase;
   display: block;
@@ -281,4 +306,17 @@ RADIO-BUTTON STYLE'S
     background-image: url('../img/logout-hover.svg');
     margin: 7px;
   }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px $white inset;
+  transition: background-color 5000s ease-in-out 0s;
 }

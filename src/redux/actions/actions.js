@@ -7,6 +7,8 @@ export const IS_AUTHENTICATED = 'IS_AUTHENTICATED';
 export const CLOSE_MESSAGES = ' CLOSE_MESSAGES';
 export const IS_PROFILE_COMPLETE = 'IS_PROFILE_COMPLETE';
 export const USER_AVATAR = 'USER_AVATAR';
+export const GET_BLOGS = 'GET_BLOGS';
+export const BLOG_BANNER = 'BLOG_BANNER';
 export const loginUser = (data) => {
   return { type: LOG_IN, payload: data };
 };
@@ -36,4 +38,12 @@ export const isProfileComplete = (data) => {
 
 export const getUserAvatar = (data) => {
   return { type: USER_AVATAR, payload: data };
+};
+
+export const getBlogs = (data) => {
+  return { type: GET_BLOGS, payload: data };
+};
+
+export const getBlogBanner = (data) => {
+  return { type: BLOG_BANNER, payload: data };
 };

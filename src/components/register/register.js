@@ -8,7 +8,7 @@ function register({
   formIsValid
 }) {
   return (
-    <div className="form">
+    <div className="form" style={{ padding: '20px' }}>
       <div className="form-header">
         <div className="logo-large" />
         <h2>Register</h2>

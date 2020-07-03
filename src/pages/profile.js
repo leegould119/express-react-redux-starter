@@ -120,7 +120,18 @@ class Profile extends Component {
         let data = {
           avatarUrl: link,
           firstName: this.state.userProfileData.firstName,
-          lastName: this.state.userProfileData.lastName
+          lastName: this.state.userProfileData.lastName,
+          socialLinks: {
+            pinterestLink: this.state.userProfileData.socialLinks.pinterestLink,
+            facebookLink: this.state.userProfileData.socialLinks.facebookLink,
+            linkedinLink: this.state.userProfileData.socialLinks.linkedinLink,
+            twitterLink: this.state.userProfileData.socialLinks.twitterLink
+          },
+
+          location: {
+            city: this.state.userProfileData.address.city,
+            state: this.state.userProfileData.address.state
+          }
         };
         userAvatar(data);
       }
@@ -332,7 +343,17 @@ class Profile extends Component {
         let avatarData = {
           avatarUrl: link,
           firstName: resp.firstName,
-          lastName: resp.lastName
+          lastName: resp.lastName,
+          socialLinks: {
+            pinterestLink: resp.socialLinks.pinterestLink,
+            facebookLink: resp.socialLinks.facebookLink,
+            linkedinLink: resp.socialLinks.linkedinLink,
+            twitterLink: resp.socialLinks.twitterLink
+          },
+          location: {
+            city: resp.address.city,
+            state: resp.address.state
+          }
         };
         userAvatar(avatarData);
       }
@@ -387,7 +408,17 @@ class Profile extends Component {
         let avatarData = {
           avatarUrl: link,
           firstName: resp.firstName,
-          lastName: resp.lastName
+          lastName: resp.lastName,
+          socialLinks: {
+            pinterestLink: resp.socialLinks.pinterestLink,
+            facebookLink: resp.socialLinks.facebookLink,
+            linkedinLink: resp.socialLinks.linkedinLink,
+            twitterLink: resp.socialLinks.twitterLink
+          },
+          location: {
+            city: resp.address.city,
+            state: resp.address.state
+          }
         };
         userAvatar(avatarData);
         let data = {

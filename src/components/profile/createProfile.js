@@ -79,7 +79,7 @@ const createProfile = (props) => {
                 <label className="label">Address</label>
                 <div
                   style={{
-                    borderBottom: '1px solid rgba(240,240,240,1)',
+                    borderBottom: '1px solid rgba(230,230,230,1)',
                     display: 'block',
                     position: 'relative',
                     margin: '0px 0px 0 10px',
@@ -110,7 +110,7 @@ const createProfile = (props) => {
                 </label>
                 <div
                   style={{
-                    borderBottom: '1px solid rgba(240,240,240,1)',
+                    borderBottom: '1px solid rgba(230,230,230,1)',
                     display: 'block',
                     position: 'relative',
                     margin: '0px 0px 0 10px',
