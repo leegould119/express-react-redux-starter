@@ -3,20 +3,29 @@ const router = require('express').Router();
 //  BLOG ROUTES
 // ****************************************
 // POST
-router.post('/create-new', (req, res, next) => {
-  console.log(req.body);
+const Blog = require('../models/BlogSchema');
 
+router.post('/create-blog', (req, res, next) => {
   let blogCreationDate = new Date();
-  let blogPostData = {
-    type: 'POST',
+  console.log(blogCreationDate);
+  const newestBlog = new Blog({
     userId: req.body.userId,
     blogTitle: req.body.blogTitle,
     blogDescription: req.body.blogDescription,
     blogCoverImage: req.body.blogCoverImage,
     blogCreationDate: blogCreationDate
-  };
-  res.send(blogPostData);
-  next();
+  });
+  newestBlog
+    .save()
+    .then((data) => {
+      console.log(data);
+      res.send(data);
+      next();
+    })
+    .catch((err) => {
+      console.log(err);
+      next();
+    });
 });
 
 // PUT UPDATE

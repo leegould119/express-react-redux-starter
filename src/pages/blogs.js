@@ -5,7 +5,9 @@ import beach from '../img/banner6.jpg';
 import maleProfile from '../img/male-profile.svg';
 import uploadIcon from '../img/pen-solid.svg';
 import uploadBanner from '../api/uploadBlogBannerImages';
+import createBlog from '../api/createBlogApi';
 import { SocialLinks, Input, Button } from '../components/formElements';
+import { formValidation } from '../redux/actions/actions';
 
 function mapStateToProps(state) {
   return {
@@ -18,13 +20,18 @@ function mapStateToProps(state) {
     twitterLink: state.profile.userAvatar.socialLinks.twitterLink,
     linkedinLink: state.profile.userAvatar.socialLinks.linkedinLink,
     city: state.profile.userAvatar.location.city,
-    state: state.profile.userAvatar.location.state
+    state: state.profile.userAvatar.location.state,
+    userId: state.auth.userId,
+    formErrors: state.auth.formErrors,
+    formIsValid: state.auth.formIsValid
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    handleErrors: (data) => {
+      dispatch(formValidation(data));
+    }
   };
 }
 
@@ -33,7 +40,14 @@ class blogs extends Component {
     super(props);
     this.state = {
       imageSrc: '',
-      blogData: { bannerUrl: '', blogTitle: '', blogDescription: '' }
+      blogData: {
+        blogCoverImage: '',
+        blogTitle: '',
+        blogDescription: '',
+        userId: this.props.userId,
+        errors: {},
+        formIsValid: true
+      }
     };
   }
   // gets the file from the fileInput
@@ -50,25 +64,54 @@ class blogs extends Component {
         let link = origLink.substring(8);
         this.setState((prevstate) => ({
           ...prevstate.blogData,
-          blogData: { bannerUrl: link }
+          blogData: { ...prevstate.blogData, blogCoverImage: link }
         }));
       }
     });
-
-    // render the uploaded file here
-    // let reader = new FileReader();
-    // let imageUrl = reader.readAsDataURL(fd);
-    // reader.onloadend = (e) => {
-    //   this.setState({
-    //     imageSrc: [reader.result]
-    //   });
-    // };
   };
 
   submitForm = (e) => {
     e.preventDefault();
     let { blogData } = this.state;
-    console.log(blogData);
+    // console.log(blogData);
+    //
+    this.handleValidation();
+  };
+
+  handleValidation = (e) => {
+    let { blogData } = this.state;
+    let errors = {};
+    let formIsValid = true;
+    if (this.state.blogData.blogTitle == '') {
+      formIsValid = false;
+      errors['blogTitle'] = 'Blog title cant be empty';
+    }
+    if (this.state.blogData.blogDescription == '') {
+      formIsValid = false;
+      errors['blogDescrpition'] = ' Description cant be empty';
+    }
+    if (formIsValid == false) {
+      let data = {
+        formErrors: errors,
+        formIsValid: formIsValid
+      };
+      this.handleFormErrors(data);
+    }
+    if (formIsValid == true) {
+      let data = {
+        formErrors: errors,
+        formIsValid: formIsValid
+      };
+      this.handleFormErrors(data);
+      createBlog(blogData).then(async (resp) => {
+        await console.log(resp);
+      });
+    }
+  };
+
+  handleFormErrors = (data) => {
+    let { handleErrors } = this.props;
+    handleErrors(data);
   };
 
   handleChange = (event) => {
@@ -80,6 +123,8 @@ class blogs extends Component {
 
   render() {
     let {
+      formErrors,
+      formIsValid,
       avatarUrl,
       firstName,
       lastName,
@@ -90,8 +135,8 @@ class blogs extends Component {
       city,
       state
     } = this.props;
-    let { bannerUrl, blogData } = this.state;
-    console.log(bannerUrl);
+    let { blogData } = this.state;
+    console.log(blogData.blogCoverImage);
     return (
       <React.Fragment>
         <Header />
@@ -140,8 +185,9 @@ class blogs extends Component {
                 <div
                   style={{
                     backgroundImage: `url(${
-                      blogData.bannerUrl
-                        ? 'http://localhost:8080/uploads/' + blogData.bannerUrl
+                      blogData.blogCoverImage
+                        ? 'http://localhost:8080/uploads/' +
+                          blogData.blogCoverImage
                         : beach
                     })`,
                     backgroundColor: 'rgba(120,120,120,1)',
@@ -202,11 +248,29 @@ class blogs extends Component {
                   placeholder="Blog title"
                   onChange={this.handleChange}
                 />
+
+                <label className={formIsValid ? '' : 'errorMessages'}>
+                  {formErrors['blogTitle'] ? (
+                    <span> {formErrors['blogTitle']}</span>
+                  ) : (
+                    ''
+                  )}
+                </label>
+
                 <textarea
                   name="blogDescription"
                   placeholder="Blog description"
                   onChange={this.handleChange}
                 />
+
+                <label className={formIsValid ? '' : 'errorMessages'}>
+                  {formErrors['blogDescrpition'] ? (
+                    <span> {formErrors['blogDescrpition']}</span>
+                  ) : (
+                    ''
+                  )}
+                </label>
+
                 <div style={{ width: '150px' }}>
                   <Button value="Create blog" />
                 </div>
@@ -219,4 +283,4 @@ class blogs extends Component {
   }
 }
 
-export default connect(mapStateToProps)(blogs);
+export default connect(mapStateToProps, mapDispatchToProps)(blogs);
