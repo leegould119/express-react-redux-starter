@@ -37,6 +37,7 @@ function Blogs(props) {
             overflow: 'hidden'
           }}
         ></div>
+        <p> {blog.selectedCategories}</p>
         <span className="label" style={{ fontSize: '1.5em' }}>
           {blog.blogTitle}
         </span>
