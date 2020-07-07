@@ -1,8 +1,7 @@
 import { GET_BLOGS, BLOG_BANNER } from '../actions/actions';
 
 const initialState = {
-  blogs: [],
-  blogBanner: ''
+  blogs: []
 };
 const blogReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -10,11 +9,6 @@ const blogReducer = (state = initialState, action) => {
       return {
         ...state,
         blogs: action.payload
-      };
-    case BLOG_BANNER:
-      return {
-        ...state,
-        blogBanner: action.payload
       };
     default:
       return state;

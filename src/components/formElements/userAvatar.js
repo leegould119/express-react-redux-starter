@@ -19,7 +19,12 @@ class UserAvatar extends Component {
           style={{
             backgroundImage: `url(${
               avatarUrl
-                ? 'http://localhost:8080/uploads/' + avatarUrl
+                ? 'http://' +
+                  window.location.hostname +
+                  ':' +
+                  window.location.port +
+                  '/uploads/' +
+                  avatarUrl
                 : maleProfile
             })`,
             backgroundPosition: 'center center',

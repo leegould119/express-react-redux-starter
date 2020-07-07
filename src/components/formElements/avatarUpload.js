@@ -5,9 +5,17 @@ import uploadIcon from '../../img/pen-solid.svg';
 
 function avatarUpload(props) {
   let link = null;
+
   // set the link src
+
   if (props.imageSrc.length == 0) {
-    link = 'http://localhost:8080/uploads/' + props.imageLink;
+    link =
+      'http://' +
+      window.location.hostname +
+      ':' +
+      window.location.port +
+      '/uploads/' +
+      props.imageLink;
   } else {
     link = props.imageSrc;
   }

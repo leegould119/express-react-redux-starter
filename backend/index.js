@@ -7,13 +7,25 @@ const port = process.env.port || 3000;
 const multer = require('multer');
 const path = require('path');
 // CORS - cross origin resource sharing
+let whitelist = ['http://localhost:8080', 'http://localhost:8081'];
+let corsOptionsDelegate = (req, cb) => {
+  let corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true };
+  } else {
+    corsOptions = { origin: false };
+  }
+  cb(null, corsOptions);
+};
 const corsMethod = {
-  origin: '*',
+  // origin: '*',
   methods: 'GET,HEAD,POST,PUT,PATCH, DELETE',
   credentials: true
 };
-
-app.use(cors(corsMethod));
+// use cors
+app.use(cors(corsOptionsDelegate));
+// pre flight requests
+app.options('*', cors(corsOptionsDelegate));
 
 function errorHandler(err, req, res, next) {
   res.json({ err: err });

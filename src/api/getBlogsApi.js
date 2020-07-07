@@ -1,24 +1,23 @@
 import axios from 'axios';
 
-const createBlogApi = async (data) => {
-  console.log(data);
-  const apiEndPoint = 'http://localhost:3000/blog/create-blog';
+const getBlogsApi = async () => {
+  const apiEndPoint = 'http://localhost:3000/blog/get-all-blogs';
   const headers = {
     'cache-control': 'no-cache'
   };
 
   return await axios({
-    method: 'post',
+    method: 'get',
     url: apiEndPoint,
-    headers: headers,
-    data: data
+    headers: headers
   })
     .then((resp) => {
       return resp.data;
     })
     .catch((err) => {
+      //   console.log(err);
       return err;
     });
 };
 
-export default createBlogApi;
+export default getBlogsApi;

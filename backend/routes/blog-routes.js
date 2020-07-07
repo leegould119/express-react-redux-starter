@@ -13,6 +13,7 @@ router.post('/create-blog', (req, res, next) => {
     blogTitle: req.body.blogTitle,
     blogDescription: req.body.blogDescription,
     blogCoverImage: req.body.blogCoverImage,
+    selectedCategories: req.body.selectedCategories.value,
     blogCreationDate: blogCreationDate
   });
   newestBlog
@@ -36,8 +37,16 @@ router.post('/update-blog/:blogId', (req, res, next) => {
 
 // GET ALL BLOGS
 router.get('/get-all-blogs', (req, res, next) => {
-  res.send(req.body);
-  next();
+  // res.send(req.body);
+  Blog.find()
+    .then((data) => {
+      res.send(data);
+      next();
+    })
+    .catch((err) => {
+      res.send(err);
+      next();
+    });
 });
 
 // GET USER BLOGS

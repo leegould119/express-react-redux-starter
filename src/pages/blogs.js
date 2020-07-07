@@ -4,11 +4,18 @@ import { CreateProfile, Toast, Header } from '../components';
 import beach from '../img/banner6.jpg';
 import maleProfile from '../img/male-profile.svg';
 import uploadIcon from '../img/pen-solid.svg';
+// API's
 import uploadBanner from '../api/uploadBlogBannerImages';
 import createBlog from '../api/createBlogApi';
+import getAllBlogs from '../api/getBlogsApi';
 import { SocialLinks, Input, Button } from '../components/formElements';
-import { formValidation } from '../redux/actions/actions';
-
+import { formValidation, getBlogs } from '../redux/actions/actions';
+import Blogs from '../components/blogComponents/blogs';
+import Select from 'react-select';
+import customStyles from '../utils/customStyles';
+import { BlogCategories } from '../staticData';
+// time
+import moment from 'moment';
 function mapStateToProps(state) {
   return {
     ...state,
@@ -23,7 +30,8 @@ function mapStateToProps(state) {
     state: state.profile.userAvatar.location.state,
     userId: state.auth.userId,
     formErrors: state.auth.formErrors,
-    formIsValid: state.auth.formIsValid
+    formIsValid: state.auth.formIsValid,
+    blogs: state.blogs.blogs
   };
 }
 
@@ -31,6 +39,9 @@ function mapDispatchToProps(dispatch) {
   return {
     handleErrors: (data) => {
       dispatch(formValidation(data));
+    },
+    getAllBlogsR: (data) => {
+      dispatch(getBlogs(data));
     }
   };
 }
@@ -46,10 +57,14 @@ class blogs extends Component {
         blogDescription: '',
         userId: this.props.userId,
         errors: {},
-        formIsValid: true
+        formIsValid: true,
+        selectedCategories: { label: '', value: '' }
       }
     };
   }
+  componentDidMount = () => {
+    this.getBlogs();
+  };
   // gets the file from the fileInput
   getFile = (event) => {
     //the input
@@ -103,12 +118,21 @@ class blogs extends Component {
         formIsValid: formIsValid
       };
       this.handleFormErrors(data);
+      console.log(blogData);
+
       createBlog(blogData).then(async (resp) => {
         await console.log(resp);
       });
     }
   };
 
+  getBlogs = () => {
+    let { getAllBlogsR } = this.props;
+    getAllBlogs().then(async (resp) => {
+      console.log(resp);
+      await getAllBlogsR(resp);
+    });
+  };
   handleFormErrors = (data) => {
     let { handleErrors } = this.props;
     handleErrors(data);
@@ -119,6 +143,19 @@ class blogs extends Component {
     this.setState((prevstate) => ({
       blogData: { ...prevstate.blogData, [name]: value }
     }));
+  };
+
+  handleCategoriesSelectChange = (selectedOption) => {
+    console.log(selectedOption);
+    this.setState({
+      ...state,
+      blogData: {
+        selectedCategories: {
+          label: selectedOption.label,
+          value: selectedOption.value
+        }
+      }
+    });
   };
 
   render() {
@@ -133,16 +170,22 @@ class blogs extends Component {
       twitterLink,
       pinterestLink,
       city,
-      state
+      state,
+      blogs
     } = this.props;
+
     let { blogData } = this.state;
-    console.log(blogData.blogCoverImage);
+    console.log(blogData.selectedCategories.value);
+    // blogs
+
     return (
       <React.Fragment>
         <Header />
         <div className="container">
           <div className="row">
-            <div className="col-7"></div>
+            <div className="col-7" style={{ marginTop: '37px' }}>
+              <Blogs blogs={blogs} />
+            </div>
             <div className="col-5">
               <section className="social-links">
                 <div
@@ -156,7 +199,12 @@ class blogs extends Component {
                     style={{
                       backgroundImage: `url(${
                         avatarUrl
-                          ? 'http://localhost:8080/uploads/' + avatarUrl
+                          ? 'http://' +
+                            window.location.hostname +
+                            ':' +
+                            window.location.port +
+                            '/uploads/' +
+                            avatarUrl
                           : maleProfile
                       })`
                     }}
@@ -186,7 +234,11 @@ class blogs extends Component {
                   style={{
                     backgroundImage: `url(${
                       blogData.blogCoverImage
-                        ? 'http://localhost:8080/uploads/' +
+                        ? 'http://' +
+                          window.location.hostname +
+                          ':' +
+                          window.location.port +
+                          '/uploads/' +
                           blogData.blogCoverImage
                         : beach
                     })`,
@@ -241,6 +293,25 @@ class blogs extends Component {
                 onSubmit={this.submitForm}
               >
                 <label className="label">Create a new blog</label>
+                <div
+                  style={{
+                    borderBottom: '1px solid rgba(230,230,230,1)',
+                    display: 'block',
+                    position: 'relative',
+                    margin: '0px 0px 0 10px',
+                    width: 'calc(100% - 20px)',
+                    marginTop: '7px'
+                  }}
+                >
+                  <Select
+                    id="state"
+                    options={BlogCategories}
+                    styles={customStyles}
+                    isSearchable={true}
+                    onChange={this.handleCategoriesSelectChange}
+                    placeholder={'select a category'}
+                  />
+                </div>
                 <Input
                   type="text"
                   autoComplete="blog-title"

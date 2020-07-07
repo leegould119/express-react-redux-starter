@@ -10,7 +10,8 @@ const BlogSchema = new Schema({
   blogTitle: String,
   blogDescription: String,
   blogCoverImage: String,
-  blogCreationDate: Date
+  blogCreationDate: Date,
+  selectedCategories: String
 });
 
 const Blog = mongoose.model('blog', BlogSchema);
