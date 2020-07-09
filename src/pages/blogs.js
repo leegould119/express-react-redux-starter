@@ -9,7 +9,8 @@ import uploadBanner from '../api/uploadBlogBannerImages';
 import createBlog from '../api/createBlogApi';
 import getAllBlogs from '../api/getBlogsApi';
 import { SocialLinks, Input, Button } from '../components/formElements';
-import { formValidation, getBlogs } from '../redux/actions/actions';
+import { formValidation, getBlogs, messages } from '../redux/actions/actions';
+
 import Blogs from '../components/blogComponents/blogs';
 import Select from 'react-select';
 import customStyles from '../utils/customStyles';
@@ -40,8 +41,11 @@ function mapDispatchToProps(dispatch) {
     handleErrors: (data) => {
       dispatch(formValidation(data));
     },
-    getAllBlogsR: (data) => {
+    getAllBlogsRedux: (data) => {
       dispatch(getBlogs(data));
+    },
+    sendMessage: (data) => {
+      dispatch(messages(data));
     }
   };
 }
@@ -63,7 +67,7 @@ class blogs extends Component {
     };
   }
   componentDidMount = () => {
-    this.getBlogs();
+    this.getBlogsAsync();
   };
   // gets the file from the fileInput
   getFile = (event) => {
@@ -85,16 +89,16 @@ class blogs extends Component {
     });
   };
 
+  // submit a blog
   submitForm = (e) => {
     e.preventDefault();
     let { blogData } = this.state;
-    // console.log(blogData);
-    //
     this.handleValidation();
   };
 
   handleValidation = (e) => {
     let { blogData } = this.state;
+    let { sendMessage } = this.props;
     let errors = {};
     let formIsValid = true;
     if (this.state.blogData.blogTitle == '') {
@@ -120,19 +124,50 @@ class blogs extends Component {
       this.handleFormErrors(data);
       console.log(blogData);
 
-      createBlog(blogData).then(async (resp) => {
-        await console.log(resp);
+      createBlog(blogData)
+        .then((resp) => {
+          console.log(resp);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.setState({
+        imageSrc: '',
+        blogData: {
+          blogCoverImage: '',
+          blogTitle: '',
+          blogDescription: '',
+          userId: this.props.userId,
+          errors: {},
+          formIsValid: true,
+          selectedCategories: { label: '', value: '' }
+        }
       });
+      let Notifications = {
+        Notifications: {
+          Info: '',
+          Warning: '',
+          Success: 'Success',
+          Error: '',
+          Message: 'blog successfully created'
+        }
+      };
+      sendMessage(Notifications);
+      this.getBlogsAsync();
     }
   };
-
-  getBlogs = () => {
-    let { getAllBlogsR } = this.props;
-    getAllBlogs().then(async (resp) => {
-      console.log(resp);
-      await getAllBlogsR(resp);
-    });
+  // get all blogs
+  getBlogsAsync = () => {
+    let { getAllBlogsRedux } = this.props;
+    getAllBlogs()
+      .then(async (resp) => {
+        await getAllBlogsRedux(resp);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
   handleFormErrors = (data) => {
     let { handleErrors } = this.props;
     handleErrors(data);
@@ -349,6 +384,7 @@ class blogs extends Component {
             </div>
           </div>
         </div>
+        <Toast />
       </React.Fragment>
     );
   }

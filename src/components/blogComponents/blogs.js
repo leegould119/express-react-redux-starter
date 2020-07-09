@@ -6,7 +6,6 @@ function Blogs(props) {
   let { blogs } = props;
   let blogsComponent = blogs.map((blog, idx) => {
     let date = moment(blog.blogCreationDate).format('MMM Do YYYY');
-    console.log(date);
     return (
       <div
         key={idx}
@@ -37,10 +36,31 @@ function Blogs(props) {
             overflow: 'hidden'
           }}
         ></div>
-        <p> {blog.selectedCategories}</p>
-        <span className="label" style={{ fontSize: '1.5em' }}>
+        <a
+          href=""
+          style={{
+            textTransform: 'uppercase',
+            color: 'rgba(204, 87, 74, 1)',
+            fontSize: '0.8em',
+            display: 'block',
+            marginTop: '40px',
+            borderBottom: '0'
+          }}
+        >
+          {' '}
+          {blog.selectedCategories}
+        </a>
+        <a
+          href=""
+          className="label"
+          style={{
+            fontSize: '1.5em',
+            textDecoration: 'none',
+            borderBottom: 'none'
+          }}
+        >
           {blog.blogTitle}
-        </span>
+        </a>
         <p
           style={{
             margin: '20px',

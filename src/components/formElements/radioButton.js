@@ -3,7 +3,7 @@ import React from 'react';
 const radioButton = (props) => {
   console.log(props.data);
   return (
-    <div onChange={props.handleChange}>
+    <div>
       {props.options.map((option, index) => {
         return (
           <label key={index} className="inputContainer">
@@ -16,7 +16,8 @@ const radioButton = (props) => {
                     id={option}
                     value={option}
                     name={props.id}
-                    checked
+                    checked={true}
+                    onChange={props.handleChange}
                   />
                 );
               } else {
@@ -26,6 +27,8 @@ const radioButton = (props) => {
                     id={option}
                     value={option}
                     name={props.id}
+                    checked={false}
+                    onChange={props.handleChange}
                   />
                 );
               }

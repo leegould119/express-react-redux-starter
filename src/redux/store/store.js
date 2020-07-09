@@ -4,10 +4,11 @@ import {
   profileReducer,
   blogReducer
 } from '../reducers';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import sessionStorage from 'redux-persist/lib/storage/session';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+import reduxThunk from 'redux-thunk';
 
 const persistConfig = {
   key: 'root',
@@ -24,10 +25,12 @@ const allReducers = combineReducers({
 });
 
 const pReducer = persistReducer(persistConfig, allReducers);
-
 export const store = createStore(
   pReducer,
-  window.devToolsExtension && window.devToolsExtension()
+  compose(
+    window.devToolsExtension && window.devToolsExtension(),
+    applyMiddleware(reduxThunk)
+  )
 );
 
 export const persistor = persistStore(store);

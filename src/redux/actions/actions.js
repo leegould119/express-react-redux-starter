@@ -1,3 +1,5 @@
+import getAllBlogs from '../../api/getBlogsApi';
+
 export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
 export const USER_ID = 'USER_ID';
@@ -41,4 +43,10 @@ export const getUserAvatar = (data) => {
 
 export const getBlogs = (data) => {
   return { type: GET_BLOGS, payload: data };
+};
+
+export const getBlogsAsync = (data) => {
+  return (dispatch) => {
+    dispatch(getData(data));
+  };
 };
