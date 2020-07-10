@@ -1,4 +1,8 @@
-import { GET_BLOGS, BLOG_BANNER } from '../actions/actions';
+import {
+  GET_BLOGS,
+  GETTING_BLOGS,
+  GETTING_BLOGS_FAILURE
+} from '../actions/actions';
 
 const initialState = {
   blogs: []
@@ -10,6 +14,12 @@ const blogReducer = (state = initialState, action) => {
         ...state,
         blogs: action.payload
       };
+    case GETTING_BLOGS_FAILURE:
+      return {
+        ...state
+      };
+    case GETTING_BLOGS:
+      return { ...state };
     default:
       return state;
   }

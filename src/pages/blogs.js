@@ -9,7 +9,11 @@ import uploadBanner from '../api/uploadBlogBannerImages';
 import createBlog from '../api/createBlogApi';
 import getAllBlogs from '../api/getBlogsApi';
 import { SocialLinks, Input, Button } from '../components/formElements';
-import { formValidation, getBlogs, messages } from '../redux/actions/actions';
+import {
+  formValidation,
+  getBlogData,
+  messages
+} from '../redux/actions/actions';
 
 import Blogs from '../components/blogComponents/blogs';
 import Select from 'react-select';
@@ -41,8 +45,8 @@ function mapDispatchToProps(dispatch) {
     handleErrors: (data) => {
       dispatch(formValidation(data));
     },
-    getAllBlogsRedux: (data) => {
-      dispatch(getBlogs(data));
+    getAllBlogsRedux: () => {
+      dispatch(getBlogData());
     },
     sendMessage: (data) => {
       dispatch(messages(data));
