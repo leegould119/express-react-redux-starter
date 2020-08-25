@@ -4,7 +4,7 @@ const loginUser = async (uname, pw) => {
   const apiEndPoint = 'http://localhost:3000/login';
   const data = { uname: uname, pw: pw };
   const headers = {
-    Accept: 'tesst/html',
+    Accept: 'text/html',
     'cache-control': 'no-cache',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': '*',

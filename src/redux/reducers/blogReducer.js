@@ -5,6 +5,7 @@ import {
 } from '../actions/actions';
 
 const initialState = {
+  preloading: false,
   blogs: []
 };
 const blogReducer = (state = initialState, action) => {
@@ -12,14 +13,16 @@ const blogReducer = (state = initialState, action) => {
     case GET_BLOGS:
       return {
         ...state,
+        preloading: false,
         blogs: action.payload
       };
     case GETTING_BLOGS_FAILURE:
       return {
-        ...state
+        ...state,
+        preloading: false
       };
     case GETTING_BLOGS:
-      return { ...state };
+      return { ...state, preloading: true };
     default:
       return state;
   }

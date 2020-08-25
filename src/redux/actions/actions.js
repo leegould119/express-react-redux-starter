@@ -47,6 +47,7 @@ export const gettingBlogData = () => {
   return { type: GETTING_BLOGS };
 };
 
+// blog actions
 const getBlogDataFailure = () => {
   return { type: GETTING_BLOGS_FAILURE };
 };
@@ -57,7 +58,8 @@ const getBlogs = (data) => {
 
 export const getBlogData = () => {
   return (dispatch) => {
-    dispatch(gettingBlogData);
+    // getting blogs
+    dispatch(gettingBlogData());
     const apiEndPoint = 'http://localhost:3000/blog/get-all-blogs';
     const headers = {
       'cache-control': 'no-cache'

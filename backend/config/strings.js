@@ -1,6 +1,7 @@
 const strings = {
   mongoose: {
-    connectionString: 'mongodb://localhost/webApp',
+    connectionString:
+      'mongodb+srv://Lee:Maxiepuss1@cluster0.2bkud.mongodb.net/<dbname>?retryWrites=true&w=majority',
     options: {
       useNewUrlParser: true,
       useUnifiedTopology: true,
